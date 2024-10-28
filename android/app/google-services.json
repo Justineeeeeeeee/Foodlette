@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "513895911773",
+    "project_id": "foodlette-3bdf2",
+    "storage_bucket": "foodlette-3bdf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513895911773:android:f977eb7c1e4877486298b4",
+        "android_client_info": {
+          "package_name": "com.example.foodlettemobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVUqukV_76VCAQTgFUHnx6eKsjxqMOoKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
