@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlettemobile/pages/login_or_register.dart';
-import 'package:foodlettemobile/pages/login_page.dart';
 import 'home_page.dart';
 
 class AuthPage extends StatelessWidget {
@@ -17,7 +16,7 @@ class AuthPage extends StatelessWidget {
               return HomePage();
             }
 // user is NOT logged in else {
-            return LoginOrRegister();
+            return const LoginOrRegister();
           }),
     );
   }

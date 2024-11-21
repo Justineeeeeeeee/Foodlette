@@ -5,21 +5,21 @@ import 'package:foodlettemobile/components/my_textfield.dart';
 import 'package:foodlettemobile/components/square_tile.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
 
-class RegisterPage extends StatefulWidget {
+class ForgotPassword extends StatefulWidget {
   final Function()? onTap;
-  const RegisterPage({super.key, required this.onTap});
+  const ForgotPassword({super.key, required this.onTap});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<ForgotPassword> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageState extends State<ForgotPassword> {
   // text editing controllers
   final usernameController = TextEditingController();
 
   final passwordController = TextEditingController();
 
-  void signUserUp() async {
+  void signUserIn() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -61,7 +61,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: const Color(0xFFFFFECB),
       body: SafeArea(
@@ -73,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // Logo
                 const LogoHolder(imagePath: 'lib/images/foodLetteLogo.png'),
 
-                // Container with border
+                // Container with a border
                 Container(
                   margin: const EdgeInsets.all(20.0),
                   decoration: BoxDecoration(
@@ -85,13 +84,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(
                         8.0), // Optional: Add rounded corners
                   ),
-                  padding: const EdgeInsets.all(
-                      16.0), // Optional: Add padding inside the border
+                  padding: const EdgeInsets.all(16.0), // Optional: Add padding
                   child: Column(
                     children: [
                       // Welcome Back user!
                       Text(
-                        'Please fill out the details below!',
+                        'Welcome back!',
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontSize: 16,
@@ -101,28 +99,24 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       // Username Textfield
                       MyTextField(
-                          controller: usernameController,
-                          hintText: 'Email',
-                          obscureText: false),
+                        controller: usernameController,
+                        hintText: 'Email',
+                        obscureText: false,
+                      ),
+
                       const SizedBox(height: 20),
 
                       // Password Textfield
                       MyTextField(
-                          controller: passwordController,
-                          hintText: 'Password',
-                          obscureText: true),
-                      const SizedBox(height: 20),
-
-                      // Confirm Password Textfield
-                      MyTextField(
-                          controller: passwordController,
-                          hintText: 'Confirm Password',
-                          obscureText: true),
-                      const SizedBox(height: 20),
+                        controller: passwordController,
+                        hintText: 'Password',
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 10),
 
                       // Forgot Password
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      GestureDetector(
+                        onTap: widget.onTap,
                         child: Row(
                           children: [
                             Text(
@@ -134,10 +128,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 25),
 
-                      // Sign in Button
-                      MyButton(
-                        onTap: signUserUp,
-                      ),
+                      // Login Button
+                      MyButton(onTap: signUserIn),
                       const SizedBox(height: 50),
 
                       // Or Continue With
@@ -188,14 +180,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Already have an Account?',
+                            'Not a member?',
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                           const SizedBox(width: 4),
                           GestureDetector(
                             onTap: widget.onTap,
                             child: const Text(
-                              'Login Now',
+                              'Register now',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,

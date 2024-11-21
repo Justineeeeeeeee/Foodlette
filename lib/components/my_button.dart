@@ -15,12 +15,16 @@ class MyButton extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: const Color(0xFFD8B144),
           borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: const Color(0xFF975102), // Customize the border color
+            width: 2.0, // Customize the border thickness
+          ),
         ),
         child: const Center(
           child: Text(
-            "Sign In",
+            "Login In",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
