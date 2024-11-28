@@ -33,6 +33,7 @@ class HomePage extends StatelessWidget {
                       Column(
                         children: [
                           Container(
+                            
                             margin: const EdgeInsets.all(5.0),
                             width: containerWidth,
                             height: containerHeight,
@@ -47,8 +48,8 @@ class HomePage extends StatelessWidget {
                                 BoxShadow(
                                   color: Colors.black,
                                   offset: const Offset(
-                                    2.0,
-                                    2.0,
+                                    .5,
+                                    .5,
                                   ),
                                   blurRadius: 20.0,
                                   spreadRadius: 2.0,
@@ -56,10 +57,31 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                             child: Column(
-                              children: [Text("Username")],
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 20.0),
+                                  child: Row(
+                                  children: [
+                                    Icon(
+                                    Icons.account_circle, 
+                                    size: 40,
+
+                                    ),  // User Icon
+                                  SizedBox(width: 8),  // Adds space between the icon and text
+                                Text(
+                                "USERNAME",  style: TextStyle(
+                                  fontFamily: 'RobotoSlab',
+                                ),)
+                              ,], 
+                               
+                               ),
+                                ),
+                               ],
                             ),
                           ),
                           Container(
+                            
                             margin: const EdgeInsets.all(5.0),
                             width: containerWidth,
                             height: containerHeight,
@@ -74,8 +96,8 @@ class HomePage extends StatelessWidget {
                                 BoxShadow(
                                   color: Colors.black,
                                   offset: const Offset(
-                                    2.0,
-                                    2.0,
+                                    .5,
+                                    .5,
                                   ),
                                   blurRadius: 20.0,
                                   spreadRadius: 2.0,
@@ -83,13 +105,36 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                             child: Column(
-                              children: [Text("Sign Out")],
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 20.0),
+                                  child: Row(
+                                  children: [
+                                    Icon(
+                                    Icons.logout, 
+                                    color: Color(0xFFC00F0C),
+                                    size: 40,
+
+                                    ),  // User Icon
+                                  SizedBox(width: 8),  // Adds space between the icon and text
+                                Text(
+                                "SIGN OUT",  style: TextStyle(
+                                  fontFamily: 'RobotoSlab',
+                                  color: Color(0xFFC00F0C)
+                                ),)
+                              ,], 
+                               
+                               ),
+                                ),
+                               ],
                             ),
                           ),
                           Container(
+                            
                             margin: const EdgeInsets.all(5.0),
                             width: containerWidth,
-                            height: containerHeight * 2,
+                            height: containerHeight * 2 ,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: Colors.white,
@@ -101,8 +146,8 @@ class HomePage extends StatelessWidget {
                                 BoxShadow(
                                   color: Colors.black,
                                   offset: const Offset(
-                                    2.0,
-                                    2.0,
+                                    .5,
+                                    .5,
                                   ),
                                   blurRadius: 20.0,
                                   spreadRadius: 2.0,
@@ -110,12 +155,34 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                             child: Column(
-                              children: [Text("Humidity")],
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 5.0,top:5.0),
+                                  child: Column(
+                                  children: [
+                                  SizedBox(width: 8),  // Adds space between the icon and text
+                                Text(
+                                "HUMIDITY",  style: TextStyle(
+                                  fontFamily: 'RobotoSlab',
+                                  color: Colors.black,
+                                ),
+                                ),
+                                
+                              ], 
+                              
+                               
+                               ),
+                               
+                                ),
+                                
+                               ],
                             ),
                           ),
                         ],
                       ),
                       Column(
+                         
                         children: [
                           Container(
                             margin: const EdgeInsets.all(5.0),
@@ -141,7 +208,23 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                             child: Column(
-                              children: [Text("Notifications")],
+                               mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 40.0),
+                                  
+                               child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                               Icon(
+                                    Icons.notifications, 
+                                    size: 40,
+                                    ),  // User Icon
+                                  SizedBox(width: 8),  
+                                Text("NOTIFICATIONS", style: TextStyle(
+                                  fontFamily: 'RobotoSlab',
+                                ),)
+                         ], ),),],
                             ),
                           ),
                           Container(
@@ -223,7 +306,7 @@ class HomePage extends StatelessWidget {
                       (index) => Container(
                         margin: const EdgeInsets.symmetric(horizontal: 4.0),
                         width: screenWidth * 0.31,
-                        height: screenWidth * 0.31,
+                        height: screenWidth * 0.31, 
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.white,
