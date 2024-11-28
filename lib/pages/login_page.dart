@@ -4,6 +4,7 @@ import 'package:foodlettemobile/components/my_button.dart';
 import 'package:foodlettemobile/components/my_textfield.dart';
 import 'package:foodlettemobile/components/square_tile.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
+import 'forgot_password.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -35,29 +36,25 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
       Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       Navigator.pop(context);
-      showErrorMessage(e.code);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+              child: Text(
+                "Invalid credentials",
+                style: const TextStyle(color: Color.fromARGB(255, 17, 17, 17)),
+              ),
+            ),
+          ); // AlertDialog
+        },
+      );
     }
   }
 
 // Wrong password Message Function
-  void showErrorMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.deepPurple,
-          title: Center(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        ); // AlertDialog
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +113,25 @@ class _LoginPageState extends State<LoginPage> {
 
                       // Forgot Password
                       GestureDetector(
-                        onTap: widget.onTap,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ForgotPassword();
+                              },
+                            ),
+                          );
+                        },
                         child: Row(
                           children: [
-                            Text(
-                              'Forgot Password',
-                              style: TextStyle(color: Colors.grey[600]),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Text(
+                                'Forgot Password',
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
                             ),
                           ],
                         ),

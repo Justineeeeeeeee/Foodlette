@@ -12,256 +12,333 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final containerWidth = screenWidth * 0.4;
+    final containerHeight = containerWidth * 0.3;
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Column(
-            children: [
-              // Top Row: Username, Notifications, and Sign-Out
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.yellowAccent),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // First Row
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
                         children: [
-                          Icon(Icons.person, color: Colors.purple),
-                          SizedBox(width: 8),
-                          Text('USERNAME',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.yellowAccent),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.notifications, color: Colors.black),
-                          SizedBox(width: 8),
-                          Text('NOTIFICATIONS',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.yellowAccent),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: signOutUser,
-                            icon: Icon(Icons.logout, color: Colors.red),
+                          Container(
+                            margin: const EdgeInsets.all(5.0),
+                            width: containerWidth,
+                            height: containerHeight,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFD8B144),
+                                width: 3.0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: const Offset(
+                                    2.0,
+                                    2.0,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 2.0,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [Text("Username")],
+                            ),
                           ),
-                          Text(
-                            'SIGN-OUT',
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+                          Container(
+                            margin: const EdgeInsets.all(5.0),
+                            width: containerWidth,
+                            height: containerHeight,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFD8B144),
+                                width: 3.0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: const Offset(
+                                    2.0,
+                                    2.0,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 2.0,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [Text("Sign Out")],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(5.0),
+                            width: containerWidth,
+                            height: containerHeight * 2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFD8B144),
+                                width: 3.0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: const Offset(
+                                    2.0,
+                                    2.0,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 2.0,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [Text("Humidity")],
+                            ),
                           ),
                         ],
                       ),
+                      Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.all(5.0),
+                            width: screenWidth * 0.55,
+                            height: screenWidth * 0.20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFD8B144),
+                                width: 3.0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: const Offset(
+                                    2.0,
+                                    2.0,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 2.0,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [Text("Notifications")],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(5.0),
+                            width: screenWidth * 0.55,
+                            height: screenWidth * 0.29,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFD8B144),
+                                width: 3.0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  offset: const Offset(
+                                    2.0,
+                                    2.0,
+                                  ),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 2.0,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [Text("Actual Photo")],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // Second Row
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      3,
+                      (index) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                        width: screenWidth * 0.31,
+                        height: screenWidth * 0.31,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFD8B144),
+                            width: 3.0,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              offset: const Offset(
+                                2.0,
+                                2.0,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [Text("Sign Out")],
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 16),
-
-              // Humidity, Photo, Weight
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InfoBox(
-                      label: 'HUMIDITY',
-                      value: '29°C',
-                      color: Colors.orange,
-                      width: 110),
-                  InfoBox(
-                    label: 'ACTUAL PHOTO OF MACHINE',
-                    value: 'PHOTO',
-                    isPhoto: true,
-                    width: 110,
+                ),
+                // Third Row
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      3,
+                      (index) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                        width: screenWidth * 0.31,
+                        height: screenWidth * 0.31,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFD8B144),
+                            width: 3.0,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              offset: const Offset(
+                                2.0,
+                                2.0,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [Text("Sign Out")],
+                        ),
+                      ),
+                    ),
                   ),
-                  InfoBox(
-                      label: 'WEIGHT',
-                      value: '1.45 Kg',
-                      color: Colors.orange,
-                      width: 110),
-                ],
-              ),
-              SizedBox(height: 16),
-
-              // Storage, Temperature
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InfoBox(
-                      label: 'STORAGE',
-                      value: '70%',
-                      color: Colors.green,
-                      width: 150),
-                  InfoBox(
-                      label: 'TEMPERATURE',
-                      value: '45°C',
-                      color: Colors.red,
-                      width: 150),
-                ],
-              ),
-              SizedBox(height: 16),
-
-              // PM-1, PM-2, PM-3 Images
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ImageBox(
-                      label: 'PM-1', imagePath: 'assets/pm1.png', width: 100),
-                  ImageBox(
-                      label: 'PM-2', imagePath: 'assets/pm2.png', width: 100),
-                  ImageBox(
-                      label: 'PM-3', imagePath: 'assets/pm3.png', width: 100),
-                ],
-              ),
-              SizedBox(height: 20),
-
-              // Start and Stop Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ActionButton(label: 'START', color: Colors.green),
-                  ActionButton(label: 'STOP', color: Colors.red),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Custom Widget for Info Box
-class InfoBox extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color? color;
-  final bool isPhoto;
-  final double width;
-
-  InfoBox({
-    required this.label,
-    required this.value,
-    this.color,
-    this.isPhoto = false,
-    required this.width,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      padding: EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.yellowAccent),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: [
-          Text(
-            label,
-            style: TextStyle(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 10),
-          if (isPhoto)
-            Container(
-              height: 50,
-              color: Colors.grey,
-              child: Center(child: Text('PHOTO')),
-            )
-          else
-            Text(
-              value,
-              style: TextStyle(
-                color: color ?? Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
+                ),
+                // Bottom Full-Width Container
+                Container(
+                  margin: const EdgeInsets.all(10.0),
+                  width: screenWidth * 0.95,
+                  height: screenWidth * 0.31,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    border: Border.all(
+                      color: const Color(0xFFD8B144),
+                      width: 3.0,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        offset: const Offset(
+                          2.0,
+                          2.0,
+                        ),
+                        blurRadius: 20.0,
+                        spreadRadius: 2.0,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(5.0),
+                        width: containerWidth,
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFD8B144),
+                            width: 3.0,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              offset: const Offset(
+                                2.0,
+                                2.0,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [Text("Start")],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(5.0),
+                        width: containerWidth,
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFD8B144),
+                            width: 3.0,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              offset: const Offset(
+                                2.0,
+                                2.0,
+                              ),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [Text("Stop")],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-        ],
-      ),
-    );
-  }
-}
-
-// Custom Widget for Image Box
-class ImageBox extends StatelessWidget {
-  final String label;
-  final String imagePath;
-  final double width;
-
-  ImageBox({required this.label, required this.imagePath, required this.width});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.yellowAccent),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: [
-          Image.asset(imagePath, height: 60, fit: BoxFit.cover),
-          SizedBox(height: 5),
-          Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-}
-
-// Custom Widget for Action Button
-class ActionButton extends StatelessWidget {
-  final String label;
-  final Color color;
-
-  ActionButton({required this.label, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          ),
         ),
       ),
-      child: Text(label,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
     );
   }
 }

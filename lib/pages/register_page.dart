@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodlettemobile/components/my_button.dart';
 import 'package:foodlettemobile/components/my_textfield.dart';
 import 'package:foodlettemobile/components/square_tile.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
@@ -16,7 +15,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   // text editing controllers
   final usernameController = TextEditingController();
-
+  final confirmPasswordController = TextEditingController();
   final passwordController = TextEditingController();
 
   void signUserUp() async {
@@ -30,10 +29,14 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: usernameController.text,
-        password: passwordController.text,
-      );
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: usernameController.text,
+          password: passwordController.text,
+        );
+      } else {
+        showErrorMessage("Password don't match!");
+      }
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
@@ -47,11 +50,10 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.deepPurple,
           title: Center(
             child: Text(
               message,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Color.fromARGB(255, 17, 17, 17)),
             ),
           ),
         ); // AlertDialog
@@ -115,28 +117,38 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       // Confirm Password Textfield
                       MyTextField(
-                          controller: passwordController,
+                          controller: confirmPasswordController,
                           hintText: 'Confirm Password',
                           obscureText: true),
                       const SizedBox(height: 20),
 
-                      // Forgot Password
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Forgot Password',
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 25),
-
                       // Sign in Button
-                      MyButton(
+                      GestureDetector(
                         onTap: signUserUp,
+                        child: Container(
+                          height: 45,
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(horizontal: 25),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFD8B144),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: const Color(
+                                  0xFF975102), // Customize the border color
+                              width: 2.0, // Customize the border thickness
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "Sign up",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 50),
 
