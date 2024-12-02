@@ -42,16 +42,16 @@ class HomePage extends StatelessWidget {
                               color: Colors.white,
                               border: Border.all(
                                 color: const Color(0xFFD8B144),
-                                width: 3.0,
+                                width: 2.0,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                   offset: const Offset(
                                     .5,
                                     .5,
                                   ),
-                                  blurRadius: 20.0,
+                                  blurRadius: 10.0,
                                   spreadRadius: 2.0,
                                 ),
                               ],
@@ -90,16 +90,16 @@ class HomePage extends StatelessWidget {
                               color: Colors.white,
                               border: Border.all(
                                 color: const Color(0xFFD8B144),
-                                width: 3.0,
+                                width: 2.0,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                   offset: const Offset(
                                     .5,
                                     .5,
                                   ),
-                                  blurRadius: 20.0,
+                                  blurRadius: 10.0,
                                   spreadRadius: 2.0,
                                 ),
                               ],
@@ -140,16 +140,16 @@ class HomePage extends StatelessWidget {
                               color: Colors.white,
                               border: Border.all(
                                 color: const Color(0xFFD8B144),
-                                width: 3.0,
+                                width: 2.0,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                   offset: const Offset(
                                     .5,
                                     .5,
                                   ),
-                                  blurRadius: 20.0,
+                                  blurRadius: 10.0,
                                   spreadRadius: 2.0,
                                 ),
                               ],
@@ -182,7 +182,6 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                       Column(
-                         
                         children: [
                           Container(
                             margin: const EdgeInsets.all(5.0),
@@ -193,16 +192,16 @@ class HomePage extends StatelessWidget {
                               color: Colors.white,
                               border: Border.all(
                                 color: const Color(0xFFD8B144),
-                                width: 3.0,
+                                width: 2.0,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                   offset: const Offset(
-                                    2.0,
-                                    2.0,
+                                    .5,
+                                    .5,
                                   ),
-                                  blurRadius: 20.0,
+                                  blurRadius: 10.0,
                                   spreadRadius: 2.0,
                                 ),
                               ],
@@ -236,22 +235,22 @@ class HomePage extends StatelessWidget {
                               color: Colors.white,
                               border: Border.all(
                                 color: const Color(0xFFD8B144),
-                                width: 3.0,
+                                width: 2.0,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                   offset: const Offset(
-                                    2.0,
-                                    2.0,
+                                    .5,
+                                    .5,
                                   ),
-                                  blurRadius: 20.0,
+                                  blurRadius: 10.0,
                                   spreadRadius: 2.0,
                                 ),
                               ],
                             ),
                             child: Column(
-                              children: [Text("Actual Photo")],
+                              children: [Text("ACTUAL PHOTO OF MACHINE", style: TextStyle(fontFamily: 'RobotoSlab',),)],
                             ),
                           ),
                         ],
@@ -275,22 +274,22 @@ class HomePage extends StatelessWidget {
                           color: Colors.white,
                           border: Border.all(
                             color: const Color(0xFFD8B144),
-                            width: 3.0,
+                            width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black,
+                               color: Colors.grey,
                               offset: const Offset(
-                                2.0,
-                                2.0,
+                                .5,
+                                .5,
                               ),
-                              blurRadius: 20.0,
+                              blurRadius: 10.0,
                               spreadRadius: 2.0,
                             ),
                           ],
                         ),
                         child: Column(
-                          children: [Text("Sign Out")],
+                          children: [Text("WEIGHT", style: TextStyle(fontFamily: 'RobotoSlab',),)],
                         ),
                       ),
                     ),
@@ -312,22 +311,22 @@ class HomePage extends StatelessWidget {
                           color: Colors.white,
                           border: Border.all(
                             color: const Color(0xFFD8B144),
-                            width: 3.0,
+                            width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black,
+                              color: Colors.grey,
                               offset: const Offset(
-                                2.0,
-                                2.0,
+                                .5,
+                                .5,
                               ),
-                              blurRadius: 20.0,
+                              blurRadius: 10.0,
                               spreadRadius: 2.0,
                             ),
                           ],
                         ),
                         child: Column(
-                          children: [Text("Sign Out")],
+                            children: [Text("PM-1", style: TextStyle(fontFamily: 'RobotoSlab',),)],
                         ),
                       ),
                     ),
@@ -343,16 +342,16 @@ class HomePage extends StatelessWidget {
                     color: Colors.white,
                     border: Border.all(
                       color: const Color(0xFFD8B144),
-                      width: 3.0,
+                      width: 2.0,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black,
+                        color: Colors.grey,
                         offset: const Offset(
-                          2.0,
-                          2.0,
+                          .5,
+                          .5,
                         ),
-                        blurRadius: 20.0,
+                        blurRadius:10.0,
                         spreadRadius: 2.0,
                       ),
                     ],
@@ -365,53 +364,53 @@ class HomePage extends StatelessWidget {
                         width: containerWidth,
                         height: containerHeight,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(60),
+                          color: const Color.fromARGB(255, 67, 238, 72),
                           border: Border.all(
-                            color: const Color(0xFFD8B144),
-                            width: 3.0,
+                          color: const Color.fromARGB(255, 67, 238, 72),
+                            width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black,
+                              color: Colors.grey,
                               offset: const Offset(
-                                2.0,
-                                2.0,
+                               .5,
+                               .5,
                               ),
-                              blurRadius: 20.0,
+                              blurRadius: 10.0,
                               spreadRadius: 2.0,
                             ),
                           ],
                         ),
                         child: Column(
-                          children: [Text("Start")],
+                          children: [Text("START", style: TextStyle(fontFamily: 'RobotoSlab', fontWeight: FontWeight.bold , color: Colors.white, fontSize: 22 ),)],
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.all(5.0),
-                        width: containerWidth,
-                        height: containerHeight,
+                        width: containerWidth, // Ensure width > height for an oval shape
+                        height: containerHeight, // Set the height
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(60),
+                          color: const Color(0xFFF44336),
                           border: Border.all(
-                            color: const Color(0xFFD8B144),
-                            width: 3.0,
+                            color: const Color(0xFFF44336),
+                            width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black,
+                              color: Colors.grey,
                               offset: const Offset(
-                                2.0,
-                                2.0,
+                                .5,
+                                .5,
                               ),
-                              blurRadius: 20.0,
+                              blurRadius: 5.0,
                               spreadRadius: 2.0,
                             ),
                           ],
                         ),
                         child: Column(
-                          children: [Text("Stop")],
+                            children: [Text("STOP", style: TextStyle(fontFamily: 'RobotoSlab',  fontWeight: FontWeight.bold,  color: Colors.white, fontSize: 22))],
                         ),
                       ),
                     ],
