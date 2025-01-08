@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlettemobile/components/my_button.dart';
-import 'package:foodlettemobile/components/my_textfield.dart';
-import 'package:foodlettemobile/components/square_tile.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
 import 'forgot_password.dart';
 
@@ -17,8 +15,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
-
   final passwordController = TextEditingController();
+
+  bool isPasswordVisible = false;
+
+  void togglePasswordVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
 
   void signUserIn() async {
     showDialog(
@@ -35,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
         email: usernameController.text,
         password: passwordController.text,
       );
-      Navigator.pop(context);
     } on FirebaseAuthException {
       Navigator.pop(context);
       showDialog(
@@ -54,12 +58,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-// Wrong password Message Function
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFECB),
+      backgroundColor: const Color(0xFFFDF5E6),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -75,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color:
-                          const Color(0xFF975102), // Customize the border color
+                          const Color(0xFFD8B144), // Customize the border color
                       width: 2.0, // Customize the border thickness
                     ),
                     borderRadius: BorderRadius.circular(
@@ -94,20 +96,33 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 25),
 
-                      // Username Textfield
-                      MyTextField(
+                      // Email Textfield with Show Email button
+                      TextField(
                         controller: usernameController,
-                        hintText: 'Email',
-                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          border: const OutlineInputBorder(),
+                        ),
                       ),
 
                       const SizedBox(height: 20),
 
-                      // Password Textfield
-                      MyTextField(
+                      // Password Textfield with Show Password button
+                      TextField(
                         controller: passwordController,
-                        hintText: 'Password',
-                        obscureText: true,
+                        obscureText: !isPasswordVisible,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: togglePasswordVisibility,
+                          ),
+                          border: const OutlineInputBorder(),
+                        ),
                       ),
                       const SizedBox(height: 10),
 
@@ -142,40 +157,40 @@ class _LoginPageState extends State<LoginPage> {
                       MyButton(onTap: signUserIn),
                       const SizedBox(height: 50),
 
-                      // Or Continue With
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Divider(
-                                thickness: 0.5,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text(
-                                'Or continue with',
-                                style: TextStyle(
-                                  color: Colors.grey[700],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(
-                                thickness: 0.5,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 50),
+                      // // Or Continue With
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: Divider(
+                      //           thickness: 0.5,
+                      //           color: Colors.grey[400],
+                      //         ),
+                      //       ),
+                      //       Padding(
+                      //         padding:
+                      //             const EdgeInsets.symmetric(horizontal: 10.0),
+                      //         child: Text(
+                      //           'Or continue with',
+                      //           style: TextStyle(
+                      //             color: Colors.grey[700],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Expanded(
+                      //         child: Divider(
+                      //           thickness: 0.5,
+                      //           color: Colors.grey[400],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 50),
 
                       // Google + Apple sign-in buttons
-                      const Row(
+                      /*      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SquareTile(imagePath: 'lib/images/google.png'),
@@ -184,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       const SizedBox(height: 50),
-
+*/
                       // Not a member? Register now
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

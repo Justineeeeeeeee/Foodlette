@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodlettemobile/components/my_textfield.dart';
-import 'package:foodlettemobile/components/square_tile.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
+import 'package:foodlettemobile/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -13,10 +13,15 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // text editing controllers
+  // Text editing controllers
   final usernameController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final passwordController = TextEditingController();
+  final _databaService = DatabaseService();
+
+  // Password visibility states
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   void signUserUp() async {
     showDialog(
@@ -30,21 +35,34 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: usernameController.text,
-          password: passwordController.text,
-        );
+        try {
+          UserCredential userCredential = await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+                  email: usernameController.text,
+                  password: passwordController.text);
+          String uid = userCredential.user!.uid;
+          await FirebaseFirestore.instance.collection('users').doc(uid).set({
+            'name': 'Set your name',
+            'email': usernameController.text,
+            'timestamp': FieldValue.serverTimestamp(),
+          });
+        } on FirebaseAuthException catch (e) {
+          Navigator.pop(context);
+          if (e.code == 'email-already-in-use') {
+            showErrorMessage("An account already exists for that email.");
+          } else {
+            showErrorMessage("An error occurred. Please try again.");
+          }
+        }
       } else {
-        showErrorMessage("Password don't match!");
+        Navigator.pop(context);
+        showErrorMessage("Passwords don't match!");
       }
+    } on FirebaseAuthException {
       Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      showErrorMessage(e.code);
     }
   }
 
-// Wrong password Message Function
   void showErrorMessage(String message) {
     showDialog(
       context: context,
@@ -53,19 +71,18 @@ class _RegisterPageState extends State<RegisterPage> {
           title: Center(
             child: Text(
               message,
-              style: const TextStyle(color: Color.fromARGB(255, 17, 17, 17)),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
-        ); // AlertDialog
+        );
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFECB),
+      backgroundColor: const Color(0xFFFDF5E6),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -80,18 +97,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   margin: const EdgeInsets.all(20.0),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color:
-                          const Color(0xFF975102), // Customize the border color
-                      width: 2.0, // Customize the border thickness
+                      color: const Color(0xFF975102),
+                      width: 2.0,
                     ),
-                    borderRadius: BorderRadius.circular(
-                        8.0), // Optional: Add rounded corners
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: const EdgeInsets.all(
-                      16.0), // Optional: Add padding inside the border
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      // Welcome Back user!
                       Text(
                         'Please fill out the details below!',
                         style: TextStyle(
@@ -101,28 +114,71 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 25),
 
-                      // Username Textfield
-                      MyTextField(
-                          controller: usernameController,
+                      // Email Textfield without Eye Icon
+                      TextField(
+                        controller: usernameController,
+                        obscureText: false,
+                        decoration: InputDecoration(
                           hintText: 'Email',
-                          obscureText: false),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 20),
 
-                      // Password Textfield
-                      MyTextField(
-                          controller: passwordController,
+                      // Password Textfield with Eye Icon
+                      TextField(
+                        controller: passwordController,
+                        obscureText: !_isPasswordVisible,
+                        decoration: InputDecoration(
                           hintText: 'Password',
-                          obscureText: true),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 20),
 
-                      // Confirm Password Textfield
-                      MyTextField(
-                          controller: confirmPasswordController,
+                      // Confirm Password Textfield with Eye Icon
+                      TextField(
+                        controller: confirmPasswordController,
+                        obscureText: !_isConfirmPasswordVisible,
+                        decoration: InputDecoration(
                           hintText: 'Confirm Password',
-                          obscureText: true),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isConfirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isConfirmPasswordVisible =
+                                    !_isConfirmPasswordVisible;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 20),
 
-                      // Sign in Button
+                      // Sign-up Button
                       GestureDetector(
                         onTap: signUserUp,
                         child: Container(
@@ -133,9 +189,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: const Color(0xFFD8B144),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: const Color(
-                                  0xFF975102), // Customize the border color
-                              width: 2.0, // Customize the border thickness
+                              color: const Color(0xFF975102),
+                              width: 2.0,
                             ),
                           ),
                           child: const Center(
@@ -152,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 50),
 
-                      // Or Continue With
+                      // Or continue with
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: Row(
@@ -184,8 +239,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 50),
 
-                      // Google + Apple sign-in buttons
-                      const Row(
+                      // Google + Facebook Buttons
+                      /* const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SquareTile(imagePath: 'lib/images/google.png'),
@@ -194,8 +249,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         ],
                       ),
                       const SizedBox(height: 50),
+                      */
 
-                      // Not a member? Register now
+                      // Already have an account?
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -25,7 +25,7 @@ class MyButton extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            "Login In",
+            "Login",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

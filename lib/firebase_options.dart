@@ -46,7 +46,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '513895911773',
     projectId: 'foodlette-3bdf2',
     authDomain: 'foodlette-3bdf2.firebaseapp.com',
-    storageBucket: 'foodlette-3bdf2.appspot.com',
+    databaseURL: 'https://foodlette-3bdf2-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'foodlette-3bdf2.firebasestorage.app',
     measurementId: 'G-YGMH0E6982',
   );
 
@@ -55,7 +56,8 @@ class DefaultFirebaseOptions {
     appId: '1:513895911773:android:f977eb7c1e4877486298b4',
     messagingSenderId: '513895911773',
     projectId: 'foodlette-3bdf2',
-    storageBucket: 'foodlette-3bdf2.appspot.com',
+    databaseURL: 'https://foodlette-3bdf2-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'foodlette-3bdf2.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -63,7 +65,9 @@ class DefaultFirebaseOptions {
     appId: '1:513895911773:ios:0332c43f80d1217a6298b4',
     messagingSenderId: '513895911773',
     projectId: 'foodlette-3bdf2',
-    storageBucket: 'foodlette-3bdf2.appspot.com',
+    databaseURL: 'https://foodlette-3bdf2-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'foodlette-3bdf2.firebasestorage.app',
+    iosClientId: '513895911773-mdkv9gh6anas45mek7ngtdl5r5akoqqh.apps.googleusercontent.com',
     iosBundleId: 'com.example.foodlettemobile',
   );
 
@@ -72,7 +76,9 @@ class DefaultFirebaseOptions {
     appId: '1:513895911773:ios:0332c43f80d1217a6298b4',
     messagingSenderId: '513895911773',
     projectId: 'foodlette-3bdf2',
-    storageBucket: 'foodlette-3bdf2.appspot.com',
+    databaseURL: 'https://foodlette-3bdf2-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'foodlette-3bdf2.firebasestorage.app',
+    iosClientId: '513895911773-mdkv9gh6anas45mek7ngtdl5r5akoqqh.apps.googleusercontent.com',
     iosBundleId: 'com.example.foodlettemobile',
   );
 
@@ -82,7 +88,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '513895911773',
     projectId: 'foodlette-3bdf2',
     authDomain: 'foodlette-3bdf2.firebaseapp.com',
-    storageBucket: 'foodlette-3bdf2.appspot.com',
+    databaseURL: 'https://foodlette-3bdf2-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'foodlette-3bdf2.firebasestorage.app',
     measurementId: 'G-LW894G1P9E',
   );
 

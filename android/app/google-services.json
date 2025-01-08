@@ -1,8 +1,9 @@
 {
   "project_info": {
     "project_number": "513895911773",
+    "firebase_url": "https://foodlette-3bdf2-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "foodlette-3bdf2",
-    "storage_bucket": "foodlette-3bdf2.appspot.com"
+    "storage_bucket": "foodlette-3bdf2.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +13,12 @@
           "package_name": "com.example.foodlettemobile"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "513895911773-siuagkbii4si4ugnsjccot5niptsms7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBVUqukV_76VCAQTgFUHnx6eKsjxqMOoKk"
@@ -20,7 +26,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513895911773-siuagkbii4si4ugnsjccot5niptsms7l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "513895911773-mdkv9gh6anas45mek7ngtdl5r5akoqqh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foodlettemobile"
+              }
+            }
+          ]
         }
       }
     }

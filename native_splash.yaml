@@ -4,6 +4,6 @@ flutter_native_splash:
   web: false
 
   color: "#FFFECB"
-  image: "lib/images/foodLetteLogo.png"
-  branding: "lib/images/bradingLogo.png"
-
+  image: "lib/images/SplashScreen.png"
+  branding: "lib/images/TeamName.png"
+  ma  
