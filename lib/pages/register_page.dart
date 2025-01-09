@@ -17,7 +17,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final usernameController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final passwordController = TextEditingController();
-  final _databaService = DatabaseService();
 
   // Password visibility states
   bool _isPasswordVisible = false;

@@ -742,31 +742,68 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildNotificationsPage(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 20),
-        Center(
-          child: Text(
-            "NOTIFICATIONS",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+    List<String> notifications =
+        List.generate(8, (index) => 'Notification ${index + 1}');
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Center(
+            child: Text(
+              "NOTIFICATIONS",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.amber, width: 1.5),
-              borderRadius: BorderRadius.circular(16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      leading: Icon(Icons.notifications, color: Colors.amber),
+                      title: Text(notifications[index]),
+                      subtitle: Text(
+                          'This is the detail of ${notifications[index]}.'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.check, color: Colors.green),
+                            onPressed: () {
+                              // Handle check action
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.close, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                notifications.removeAt(index);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
