@@ -45,7 +45,8 @@ class _HomePageState extends State<HomePage> {
   int _page = 0;
   File? _image; // Holds the user's image
   final TextEditingController _nameController = TextEditingController();
-
+  Color? _startButtonColor; // Define the _startButtonColor variable
+  String? _startButtonText;
   @override
   void initState() {
     super.initState();
@@ -684,26 +685,36 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(10.0),
-                    width: containerWidth,
-                    height: containerHeight,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: const Color.fromARGB(255, 67, 238, 72),
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 67, 238, 72),
-                        width: 2.0,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        // Change the background color to white when clicked
+                        _startButtonColor = Colors.white;
+                        _startButtonText = "OPERATING";
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      width: containerWidth,
+                      height: containerHeight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: _startButtonColor ??
+                            const Color.fromARGB(255, 67, 238, 72),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 67, 238, 72),
+                          width: 2.0,
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "START",
-                        style: TextStyle(
-                          fontFamily: 'RobotoSlab',
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 22,
+                      child: Center(
+                        child: Text(
+                          _startButtonText ?? "START",
+                          style: TextStyle(
+                            fontFamily: 'RobotoSlab',
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 22,
+                          ),
                         ),
                       ),
                     ),
@@ -780,14 +791,11 @@ class _HomePageState extends State<HomePage> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.check, color: Colors.green),
-                            onPressed: () {
-                              // Handle check action
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.close, color: Colors.red),
+                          TextButton(
+                            child: Text(
+                              'Dismiss',
+                              style: TextStyle(color: Colors.red),
+                            ),
                             onPressed: () {
                               setState(() {
                                 notifications.removeAt(index);
