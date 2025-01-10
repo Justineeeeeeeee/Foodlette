@@ -73,4 +73,17 @@ class DatabaseService {
       print(e.toString());
     }
   }
+
+  updateOnOff({required bool machineStatus}) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await database.collection('users').doc(user.uid).update({
+          'machineStatus': machineStatus,
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

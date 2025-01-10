@@ -47,6 +47,9 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _nameController = TextEditingController();
   Color? _startButtonColor; // Define the _startButtonColor variable
   String? _startButtonText;
+  String? _stopButtonText;
+  Color? _stopButtonColor;
+  bool? machineStatus;
   @override
   void initState() {
     super.initState();
@@ -686,13 +689,25 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        // Change the background color to white when clicked
-                        _startButtonColor = Colors.white;
-                        _startButtonText = "OPERATING";
-                      });
-                    },
+                    onTap: _startButtonText == "START" ||
+                            _startButtonText == null
+                        ? () {
+                            setState(() {
+                              // Change the start button text to "STARTING"
+                              _startButtonText = "STARTING";
+                              _startButtonColor = Colors.white;
+                              // Update the machine status to true
+                              firestoreService.updateOnOff(machineStatus: true);
+                            });
+                            Future.delayed(Duration(seconds: 1), () {
+                              setState(() {
+                                // Change the background color to white and text to "OPERATING" after delay
+                                _startButtonColor = Colors.white;
+                                _startButtonText = "OPERATING";
+                              });
+                            });
+                          }
+                        : null,
                     child: Container(
                       margin: const EdgeInsets.all(10.0),
                       width: containerWidth,
@@ -719,26 +734,50 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.all(10.0),
-                    width: containerWidth,
-                    height: containerHeight,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: const Color(0xFFF44336),
-                      border: Border.all(
-                        color: const Color(0xFFF44336),
-                        width: 2.0,
+                  GestureDetector(
+                    onTap: _startButtonText == "OPERATING"
+                        ? () {
+                            setState(() {
+                              // Change the stop button text to "STOPPING"
+                              _stopButtonText = "STOPPING";
+                              _stopButtonColor = Colors.white;
+                              // Update the machine status to false
+                              firestoreService.updateOnOff(
+                                  machineStatus: false);
+                            });
+                            Future.delayed(Duration(seconds: 1), () {
+                              setState(() {
+                                // Reset the stop button text and color after delay
+                                _stopButtonText = "STOP";
+                                _startButtonText = "START";
+                                _startButtonColor =
+                                    const Color.fromARGB(255, 67, 238, 72);
+                                _stopButtonColor = const Color(0xFFF44336);
+                              });
+                            });
+                          }
+                        : null,
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      width: containerWidth,
+                      height: containerHeight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: _stopButtonColor ?? const Color(0xFFF44336),
+                        border: Border.all(
+                          color: const Color(0xFFF44336),
+                          width: 2.0,
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "STOP",
-                        style: TextStyle(
-                          fontFamily: 'RobotoSlab',
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 22,
+                      child: Center(
+                        child: Text(
+                          _stopButtonText ?? "STOP",
+                          style: TextStyle(
+                            fontFamily: 'RobotoSlab',
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 22,
+                          ),
                         ),
                       ),
                     ),
