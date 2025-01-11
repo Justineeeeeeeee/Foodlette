@@ -792,8 +792,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildNotificationsPage(BuildContext context) {
-    List<String> notifications =
-        List.generate(8, (index) => 'Notification ${index + 1}');
+    // Stream notifications from Firestore
+    Stream<List<Map<String, dynamic>>> streamNotifications() {
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+      final notificationsCollection = userDoc.collection('userNotifications');
+      return notificationsCollection.snapshots().map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          final data = doc.data();
+          data['id'] = doc.id;
+          return data;
+        }).toList();
+      });
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -815,36 +826,68 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListTile(
-                      leading: Icon(Icons.notifications, color: Colors.amber),
-                      title: Text(notifications[index]),
-                      subtitle: Text(
-                          'This is the detail of ${notifications[index]}.'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextButton(
-                            child: Text(
-                              'Dismiss',
-                              style: TextStyle(color: Colors.red),
+              child: StreamBuilder<List<Map<String, dynamic>>>(
+                stream: streamNotifications(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Text('No notifications found.');
+                  } else {
+                    final notifications = snapshot.data!;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: notifications.length,
+                      itemBuilder: (context, index) {
+                        final notification = notifications[index];
+                        if (notification['notificationStatus'] == true) {
+                          return Card(
+                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            child: ListTile(
+                              leading: Icon(Icons.notifications,
+                                  color: Colors.amber),
+                              title: Text(notification['notificationHead']),
+                              subtitle:
+                                  Text(notification['notificationContent']),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextButton(
+                                    child: Text(
+                                      'Dismiss',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(user.uid)
+                                          .collection('userNotifications')
+                                          .doc(notification['id'])
+                                          .update(
+                                              {'notificationStatus': false});
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                notifications.removeAt(index);
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'No notifications found.',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
                 },
               ),
             ),
