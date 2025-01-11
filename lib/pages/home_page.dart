@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _fetchUserName();
+    _checkTemperatureAndNotify();
   }
 
   Future<void> _fetchUserName() async {
@@ -91,6 +94,27 @@ class _HomePageState extends State<HomePage> {
         _image = File(pickedFile.path);
       });
     }
+  }
+
+  void _checkTemperatureAndNotify() {
+    DatabaseReference currentTemp =
+        FirebaseDatabase.instance.ref().child('currentTemp');
+
+    currentTemp.onValue.listen((event) {
+      double temp = double.parse(event.snapshot.value.toString());
+      if (temp >= 75) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('userNotifications')
+            .add({
+          'notificationHead': 'High Temperature Alert',
+          'notificationContent': 'The temperature has reached $temp℃.',
+          'notificationStatus': true,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+      }
+    });
   }
 
   // Toggle Edit Mode
