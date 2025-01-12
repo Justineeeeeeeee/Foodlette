@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
-import 'package:foodlettemobile/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;

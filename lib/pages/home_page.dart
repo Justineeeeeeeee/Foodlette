@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -57,6 +57,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _fetchUserName();
     _checkTemperatureAndNotify();
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      _checkTemperatureAndNotify();
+    });
   }
 
   Future<void> _fetchUserName() async {
@@ -861,54 +864,47 @@ class _HomePageState extends State<HomePage> {
                     return Text('No notifications found.');
                   } else {
                     final notifications = snapshot.data!;
+                    final activeNotifications = notifications
+                        .where((notification) =>
+                            notification['notificationStatus'] == true)
+                        .toList();
+                    if (activeNotifications.isEmpty) {
+                      return Text('No notifications found.');
+                    }
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: notifications.length,
+                      itemCount: activeNotifications.length,
                       itemBuilder: (context, index) {
-                        final notification = notifications[index];
-                        if (notification['notificationStatus'] == true) {
-                          return Card(
-                            margin: EdgeInsets.symmetric(vertical: 8.0),
-                            child: ListTile(
-                              leading: Icon(Icons.notifications,
-                                  color: Colors.amber),
-                              title: Text(notification['notificationHead']),
-                              subtitle:
-                                  Text(notification['notificationContent']),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextButton(
-                                    child: Text(
-                                      'Dismiss',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(user.uid)
-                                          .collection('userNotifications')
-                                          .doc(notification['id'])
-                                          .update(
-                                              {'notificationStatus': false});
-                                    },
+                        final notification = activeNotifications[index];
+                        return Card(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: ListTile(
+                            leading:
+                                Icon(Icons.notifications, color: Colors.amber),
+                            title: Text(notification['notificationHead']),
+                            subtitle: Text(notification['notificationContent']),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextButton(
+                                  child: Text(
+                                    'Dismiss',
+                                    style: TextStyle(color: Colors.red),
                                   ),
-                                ],
-                              ),
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user.uid)
+                                        .collection('userNotifications')
+                                        .doc(notification['id'])
+                                        .update({'notificationStatus': false});
+                                  },
+                                ),
+                              ],
                             ),
-                          );
-                        } else {
-                          return Center(
-                            child: Text(
-                              'No notifications found.',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                          );
-                        }
+                          ),
+                        );
                       },
                     );
                   }
