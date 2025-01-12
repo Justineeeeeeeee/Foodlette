@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:foodlettemobile/api/firebase_notifications.dart';
 import 'package:foodlettemobile/models/user_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    FirebaseApi().getFirebaseToken();
     _fetchUserName();
     _checkTemperatureAndNotify();
     Timer.periodic(Duration(seconds: 30), (timer) {
