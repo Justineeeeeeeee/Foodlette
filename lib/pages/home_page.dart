@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:foodlettemobile/api/firebase_notifications.dart';
 import 'package:foodlettemobile/models/user_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -416,6 +416,20 @@ class _HomePageState extends State<HomePage> {
       },
     );
 
+    // final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+
+    // AlertDialog(
+    //   title: Text(message.notification?.title.toString() ?? 'No title'),
+    //   content: Text(message.notification?.body.toString() ?? 'No body'),
+    //   actions: [
+    //     TextButton(
+    //       onPressed: () {
+    //         Navigator.pop(context);
+    //       },
+    //       child: Text('OK'),
+    //     ),
+    //   ],
+    // );
     return SingleChildScrollView(
       child: SingleChildScrollView(
         child: Column(
