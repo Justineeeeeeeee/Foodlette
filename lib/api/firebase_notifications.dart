@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodlettemobile/main.dart';
@@ -39,6 +40,23 @@ class FirebaseApi {
     FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
 
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
-    FirebaseMessaging.onMessage.listen((Message) {});
+    FirebaseMessaging.onMessage.listen((message) {
+      final notification = message.notification;
+      if (notification == null) return;
+      _localNotification.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            _androidChannel.id,
+            _androidChannel.name,
+            channelDescription: _androidChannel.description,
+            icon: 'drawable/ic_launcher',
+          ),
+        ),
+        payload: jsonEncode(message.toMap()),
+      );
+    });
   }
 }
