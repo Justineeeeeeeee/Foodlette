@@ -137,6 +137,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _navigationItem = [
     Icon(Icons.dashboard),
+    Icon(Icons.agriculture),
     Icon(Icons.person),
     Icon(Icons.notifications),
   ];
@@ -975,16 +976,18 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: _page == 0
                         ? _buildHomePage(context)
-                        : _page == 1
+                        : _page == 2
                             ? _buildUserProfilePage(context)
-                            : _page == 2
+                            : _page == 3
                                 ? _buildNotificationsPage(context)
-                                : Center(
-                                    child: Text(
-                                      'Page ${_page + 1}',
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                  ),
+                                : _page == 1
+                                    ? _buildNotificationsPage(context)
+                                    : Center(
+                                        child: Text(
+                                          'Page ${_page + 1}',
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                      ),
                   ),
                 ],
               );
