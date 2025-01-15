@@ -24,6 +24,7 @@ class FirebaseApi {
     print('FCM Token: $fCMtoken');
 
     initPushNotifications();
+    initLocalNotifications();
   }
 
   void handleMessage(RemoteMessage? message) {
@@ -34,6 +35,23 @@ class FirebaseApi {
       '/notification_screen',
       arguments: message,
     );
+  }
+
+  Future initLocalNotifications() async {
+    const iOS = DarwinInitializationSettings();
+    const android = AndroidInitializationSettings('@drawable/ic_launcher');
+    const settings = InitializationSettings(android: android, iOS: iOS);
+
+    await _localNotification.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        final message = RemoteMessage.fromMap(jsonDecode(response.payload!));
+        handleMessage(message);
+      },
+    );
+    final platform = _localNotification.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    await platform?.createNotificationChannel(_androidChannel);
   }
 
   Future initPushNotifications() async {
