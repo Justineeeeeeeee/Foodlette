@@ -53,13 +53,14 @@ class _HomePageState extends State<HomePage> {
   String? _stopButtonText;
   Color? _stopButtonColor;
   bool? machineStatus;
+
   @override
   void initState() {
     super.initState();
     FirebaseApi().getFirebaseToken();
     _fetchUserName();
     _checkTemperatureAndNotify();
-    Timer.periodic(Duration(seconds: 30), (timer) {
+    Timer.periodic(Duration(seconds: 5), (timer) {
       _checkTemperatureAndNotify();
     });
   }
@@ -101,23 +102,38 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Stream<List<Map<String, dynamic>>> streamNotifications() {
+    final userDoc =
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final notificationsCollection = userDoc.collection('userNotifications');
+    return notificationsCollection.snapshots().map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        return data;
+      }).toList();
+    });
+  }
+
   void _checkTemperatureAndNotify() {
     DatabaseReference currentTemp =
         FirebaseDatabase.instance.ref().child('currentTemp');
 
-    currentTemp.onValue.listen((event) {
-      double temp = double.parse(event.snapshot.value.toString());
-      if (temp >= 75) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .collection('userNotifications')
-            .add({
-          'notificationHead': 'High Temperature Alert',
-          'notificationContent': 'The temperature has reached $temp℃.',
-          'notificationStatus': true,
-          'timestamp': FieldValue.serverTimestamp(),
-        });
+    currentTemp.once().then((event) {
+      if (event.snapshot.value != null) {
+        double temp = double.parse(event.snapshot.value.toString());
+        if (temp >= 75) {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('userNotifications')
+              .add({
+            'notificationHead': 'High Temperature Alert',
+            'notificationContent': 'The temperature has reached $temp℃.',
+            'notificationStatus': true,
+            'timestamp': FieldValue.serverTimestamp(),
+          });
+        }
       }
     });
   }
@@ -139,7 +155,59 @@ class _HomePageState extends State<HomePage> {
     Icon(Icons.dashboard),
     Icon(Icons.agriculture),
     Icon(Icons.person),
-    Icon(Icons.notifications),
+    StreamBuilder<List<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('userNotifications')
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((doc) {
+          final data = doc.data();
+          data['id'] = doc.id;
+          return data;
+        }).toList();
+      }),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final notifications = snapshot.data!;
+          final activeNotifications = notifications
+              .where(
+                  (notification) => notification['notificationStatus'] == true)
+              .toList();
+          return Stack(
+            children: [
+              Icon(Icons.notifications),
+              if (activeNotifications.isNotEmpty)
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                    child: Text(
+                      '${activeNotifications.length}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        } else {
+          return Icon(Icons.notifications);
+        }
+      },
+    )
   ];
   void _signOut() async {
     try {
