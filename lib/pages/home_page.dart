@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:foodlettemobile/api/firebase_notifications.dart';
 import 'package:foodlettemobile/models/user_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -132,6 +131,7 @@ class _HomePageState extends State<HomePage> {
             'notificationContent': 'The temperature has reached $temp℃.',
             'notificationStatus': true,
             'timestamp': FieldValue.serverTimestamp(),
+            'vibration': true,
           });
         }
       }
@@ -414,6 +414,258 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildGenerateFeedPage(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final containerWidth = screenWidth * 0.4;
+    final containerHeight = containerWidth * 0.3;
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Generate Feeds',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            const Text('Waste Vegetable Content'),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          color: const Color(0xFFD8B144),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Text('Ingredients'),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('Corn'),
+                      const SizedBox(height: 8),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: const Color(0xFFD8B144),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('Beans'),
+                      const SizedBox(height: 8),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: const Color(0xFFD8B144),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('Estimated Time'),
+                      const SizedBox(height: 8),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: const Color(0xFFD8B144),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('Estimated Output'),
+                      const SizedBox(height: 8),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: const Color(0xFFD8B144),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Remaining Time',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '10:21',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 24),
+            Container(
+              width: screenWidth * 0.95,
+              height: screenWidth * 0.31,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: const Color(0xFFFDF5E6),
+                border: Border.all(
+                  color: const Color(0xFFD8B144),
+                  width: 2.0,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: _startButtonText == "START" ||
+                            _startButtonText == null
+                        ? () {
+                            setState(() {
+                              // Change the start button text to "STARTING"
+                              _startButtonText = "STARTING";
+                              _startButtonColor = Colors.white;
+                              // Update the machine status to true
+                              firestoreService.updateOnOff(machineStatus: true);
+                            });
+                            Future.delayed(Duration(seconds: 1), () {
+                              setState(() {
+                                // Change the background color to white and text to "OPERATING" after delay
+                                _startButtonColor = Colors.white;
+                                _startButtonText = "OPERATING";
+                              });
+                            });
+                          }
+                        : null,
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      width: containerWidth,
+                      height: containerHeight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: _startButtonColor ??
+                            const Color.fromARGB(255, 67, 238, 72),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 67, 238, 72),
+                          width: 2.0,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          _startButtonText ?? "START",
+                          style: TextStyle(
+                            fontFamily: 'RobotoSlab',
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _startButtonText == "OPERATING"
+                        ? () {
+                            setState(() {
+                              // Change the stop button text to "STOPPING"
+                              _stopButtonText = "STOPPING";
+                              _stopButtonColor = Colors.white;
+                              // Update the machine status to false
+                              firestoreService.updateOnOff(
+                                  machineStatus: false);
+                            });
+                            Future.delayed(Duration(seconds: 1), () {
+                              setState(() {
+                                // Reset the stop button text and color after delay
+                                _stopButtonText = "STOP";
+                                _startButtonText = "START";
+                                _startButtonColor =
+                                    const Color.fromARGB(255, 67, 238, 72);
+                                _stopButtonColor = const Color(0xFFF44336);
+                              });
+                            });
+                          }
+                        : null,
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      width: containerWidth,
+                      height: containerHeight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: _stopButtonColor ?? const Color(0xFFF44336),
+                        border: Border.all(
+                          color: const Color(0xFFF44336),
+                          width: 2.0,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          _stopButtonText ?? "STOP",
+                          style: TextStyle(
+                            fontFamily: 'RobotoSlab',
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -1049,7 +1301,7 @@ class _HomePageState extends State<HomePage> {
                             : _page == 3
                                 ? _buildNotificationsPage(context)
                                 : _page == 1
-                                    ? _buildNotificationsPage(context)
+                                    ? _buildGenerateFeedPage(context)
                                     : Center(
                                         child: Text(
                                           'Page ${_page + 1}',
