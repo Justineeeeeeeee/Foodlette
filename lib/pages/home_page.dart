@@ -737,20 +737,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
 
-    // final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
-
-    // AlertDialog(
-    //   title: Text(message.notification?.title.toString() ?? 'No title'),
-    //   content: Text(message.notification?.body.toString() ?? 'No body'),
-    //   actions: [
-    //     TextButton(
-    //       onPressed: () {
-    //         Navigator.pop(context);
-    //       },
-    //       child: Text('OK'),
-    //     ),
-    //   ],
-    // );
     return SingleChildScrollView(
       child: SingleChildScrollView(
         child: Column(
