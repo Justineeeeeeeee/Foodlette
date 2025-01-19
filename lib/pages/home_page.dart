@@ -146,8 +146,58 @@ class _HomePageState extends State<HomePage> {
     });
 
     if (!_isEditing) {
-      firestoreService.update(_nameController.text, _emailController.text,
-          _birthdayController.text, context);
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+      userDoc.get().then((docSnapshot) async {
+        if (docSnapshot.exists) {
+          if (_nameController.text != docSnapshot.data()?['name'] ||
+              _emailController.text != docSnapshot.data()?['email'] ||
+              _birthdayController.text != docSnapshot.data()?['birthday'] ||
+              _passwordController.text.isNotEmpty ||
+              _newPasswordController.text.isNotEmpty ||
+              _confirmPasswordController.text.isNotEmpty) {
+            try {
+              // Reauthenticate the user with the current password
+              AuthCredential credential = EmailAuthProvider.credential(
+                email: user.email!,
+                password: _passwordController.text,
+              );
+              await user.reauthenticateWithCredential(credential);
+
+              if (_newPasswordController.text ==
+                  _confirmPasswordController.text) {
+                firestoreService.update(
+                  _nameController.text,
+                  _emailController.text,
+                  _birthdayController.text,
+                  _newPasswordController.text,
+                  context,
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Passwords do not match."),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+                setState(() {
+                  _isEditing = true;
+                });
+              }
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Current password is incorrect."),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+              setState(() {
+                _isEditing = true;
+              });
+            }
+          }
+        }
+      });
     }
   }
 

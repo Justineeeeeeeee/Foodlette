@@ -21,10 +21,11 @@ class DatabaseService {
     }
   }
 
-  update(name, setEmail, setbirthdate, BuildContext context) async {
+  update(name, setEmail, setbirthdate, password, BuildContext context) async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+        await user.updatePassword(password);
         await database.collection('users').doc(user.uid).update({
           'name': name,
           'email': setEmail,
