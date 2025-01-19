@@ -273,12 +273,19 @@ class _HomePageState extends State<HomePage> {
                   ),
               ],
             ),
-            _buildEditableProfileField("Name", _nameController, Icons.person),
-            SizedBox(height: 20),
-            _buildEditableProfileField("Email", _emailController, Icons.email),
+            _buildEditableProfileField(
+                "Name", _nameController, Icons.person, _isEditing),
             SizedBox(height: 20),
             _buildEditableProfileField(
-                "Birthday", _birthdayController, Icons.calendar_today),
+                "Email", _emailController, Icons.email, _isEditing),
+            SizedBox(height: 20),
+            _buildEditableProfileField(
+              "Birthday",
+              _birthdayController,
+              Icons.calendar_today,
+              false,
+            ),
+
             if (_isEditing) // Show only when editing
               ElevatedButton.icon(
                 icon: Icon(Icons.calendar_today),
@@ -290,6 +297,7 @@ class _HomePageState extends State<HomePage> {
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                   );
+
                   if (pickedDate != null) {
                     setState(() {
                       _birthdayController.text =
@@ -307,15 +315,24 @@ class _HomePageState extends State<HomePage> {
             if (_isEditing) ...[
               SizedBox(height: 20),
               _buildEditableProfileField(
-                  "Password", _passwordController, Icons.lock,
-                  isPassword: true, isPasswordVisible: _isPasswordVisible),
+                "Password",
+                _passwordController,
+                Icons.lock,
+                _isEditing,
+                isPassword: true,
+                isPasswordVisible: _isPasswordVisible,
+              ),
               SizedBox(height: 10),
               _buildEditableProfileField(
-                  "New Password", _newPasswordController, Icons.lock,
-                  isPassword: true, isPasswordVisible: _isNewPasswordVisible),
+                  "New Password",
+                  _newPasswordController,
+                  Icons.lock,
+                  isPassword: true,
+                  isPasswordVisible: _isNewPasswordVisible,
+                  _isEditing),
               SizedBox(height: 10),
-              _buildEditableProfileField(
-                  "Confirm Password", _confirmPasswordController, Icons.lock,
+              _buildEditableProfileField("Confirm Password",
+                  _confirmPasswordController, Icons.lock, _isEditing,
                   isPassword: true,
                   isPasswordVisible: _isConfirmPasswordVisible),
             ],
@@ -351,8 +368,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildEditableProfileField(
-      String label, TextEditingController controller, IconData icon,
+  Widget _buildEditableProfileField(String label,
+      TextEditingController controller, IconData icon, bool _isEditing,
       {bool isPassword = false, bool isPasswordVisible = false}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
