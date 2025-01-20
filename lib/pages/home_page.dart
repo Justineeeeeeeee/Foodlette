@@ -813,9 +813,9 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Image.asset(
               'lib/images/Prototype.png',
-              width: 200,
+              width: 300,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Row(
@@ -1090,118 +1090,6 @@ class _HomePageState extends State<HomePage> {
             // Spacing between the rows and the buttons
             const SizedBox(height: 10.0),
             // Bottom Full-Width Container
-            Container(
-              margin: const EdgeInsets.all(10.0),
-              width: screenWidth * 0.95,
-              height: screenWidth * 0.31,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: const Color(0xFFFDF5E6),
-                border: Border.all(
-                  color: const Color(0xFFD8B144),
-                  width: 2.0,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: _startButtonText == "START" ||
-                            _startButtonText == null
-                        ? () {
-                            setState(() {
-                              // Change the start button text to "STARTING"
-                              _startButtonText = "STARTING";
-                              _startButtonColor = Colors.white;
-                              // Update the machine status to true
-                              firestoreService.updateOnOff(machineStatus: true);
-                            });
-                            Future.delayed(Duration(seconds: 1), () {
-                              setState(() {
-                                // Change the background color to white and text to "OPERATING" after delay
-                                _startButtonColor = Colors.white;
-                                _startButtonText = "OPERATING";
-                              });
-                            });
-                          }
-                        : null,
-                    child: Container(
-                      margin: const EdgeInsets.all(10.0),
-                      width: containerWidth,
-                      height: containerHeight,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        color: _startButtonColor ??
-                            const Color.fromARGB(255, 67, 238, 72),
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 67, 238, 72),
-                          width: 2.0,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          _startButtonText ?? "START",
-                          style: TextStyle(
-                            fontFamily: 'RobotoSlab',
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _startButtonText == "OPERATING"
-                        ? () {
-                            setState(() {
-                              // Change the stop button text to "STOPPING"
-                              _stopButtonText = "STOPPING";
-                              _stopButtonColor = Colors.white;
-                              // Update the machine status to false
-                              firestoreService.updateOnOff(
-                                  machineStatus: false);
-                            });
-                            Future.delayed(Duration(seconds: 1), () {
-                              setState(() {
-                                // Reset the stop button text and color after delay
-                                _stopButtonText = "STOP";
-                                _startButtonText = "START";
-                                _startButtonColor =
-                                    const Color.fromARGB(255, 67, 238, 72);
-                                _stopButtonColor = const Color(0xFFF44336);
-                              });
-                            });
-                          }
-                        : null,
-                    child: Container(
-                      margin: const EdgeInsets.all(10.0),
-                      width: containerWidth,
-                      height: containerHeight,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        color: _stopButtonColor ?? const Color(0xFFF44336),
-                        border: Border.all(
-                          color: const Color(0xFFF44336),
-                          width: 2.0,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          _stopButtonText ?? "STOP",
-                          style: TextStyle(
-                            fontFamily: 'RobotoSlab',
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
