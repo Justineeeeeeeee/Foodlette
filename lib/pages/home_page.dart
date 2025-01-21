@@ -35,6 +35,28 @@ String _getMonthName(int month) {
   return monthNames[month - 1];
 }
 
+class SemiCircleClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height);
+    path.arcToPoint(
+      Offset(size.width, size.height),
+      radius: Radius.elliptical(size.width / 2, size.height),
+      clockwise: false,
+    );
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+@override
+bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+
 class _HomePageState extends State<HomePage> {
   final Future<FirebaseApp> _fApp = Firebase.initializeApp();
   String realTimeValue = '0';
@@ -1213,11 +1235,8 @@ class _HomePageState extends State<HomePage> {
                     floating: true,
                     snap: true,
                     pinned: false,
-                    flexibleSpace: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(130),
-                        bottomRight: Radius.circular(130),
-                      ),
+                    flexibleSpace: ClipPath(
+                      clipper: SemiCircleClipper(),
                       child: Container(
                         margin: const EdgeInsets.only(top: 30.0),
                         decoration: BoxDecoration(
