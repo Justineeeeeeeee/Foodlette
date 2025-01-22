@@ -35,25 +35,6 @@ String _getMonthName(int month) {
   return monthNames[month - 1];
 }
 
-class SemiCircleClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(0, size.height);
-    path.arcToPoint(
-      Offset(size.width, size.height),
-      radius: Radius.elliptical(size.width / 2, size.height),
-      clockwise: false,
-    );
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
-
 @override
 bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 
@@ -832,12 +813,11 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 10),
             Image.asset(
               'lib/images/Prototype.png',
               width: 300,
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Row(
@@ -1136,7 +1116,6 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 20),
           Center(
             child: Text(
               "NOTIFICATIONS",
@@ -1231,23 +1210,20 @@ class _HomePageState extends State<HomePage> {
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    expandedHeight: 100.0,
+                    expandedHeight: 120.0,
                     floating: true,
                     snap: true,
                     pinned: false,
                     flexibleSpace: ClipPath(
-                      clipper: SemiCircleClipper(),
                       child: Container(
-                        margin: const EdgeInsets.only(top: 30.0),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 250, 212, 106),
-                        ),
+                        margin: EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(),
                         child: FlexibleSpaceBar(
                           titlePadding: EdgeInsets.only(top: 20.0),
                           centerTitle: true,
                           title: Image.asset(
                             'lib/images/bradingLogo.png',
-                            width: 120,
+                            width: 250,
                           ),
                         ),
                       ),
