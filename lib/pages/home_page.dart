@@ -742,7 +742,6 @@ class _HomePageState extends State<HomePage> {
   Widget _buildHomePage(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final containerWidth = screenWidth * 0.4;
-    final containerHeight = containerWidth * 0.3;
 
     DatabaseReference producedToday =
         FirebaseDatabase.instance.ref().child('producedToday');
