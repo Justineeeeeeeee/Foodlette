@@ -621,17 +621,11 @@ class _HomePageState extends State<HomePage> {
               '10:21',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 24),
             Container(
               width: screenWidth * 0.95,
               height: screenWidth * 0.31,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
                 color: const Color(0xFFFDF5E6),
-                border: Border.all(
-                  color: const Color(0xFFD8B144),
-                  width: 2.0,
-                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
