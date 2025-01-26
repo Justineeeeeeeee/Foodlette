@@ -44,6 +44,8 @@ dependencies:
   firebase_messaging: ^15.2.0
   firebase_in_app_messaging: ^0.8.1
   flutter_local_notifications: ^18.0.1
+  flutter_animate: ^4.5.2
+  lottie: ^3.2.0
 
 
 

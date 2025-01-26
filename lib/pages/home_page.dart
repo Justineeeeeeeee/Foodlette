@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:foodlettemobile/api/firebase_notifications.dart';
 import 'package:foodlettemobile/models/user_model.dart';
+import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -190,7 +191,9 @@ class _HomePageState extends State<HomePage> {
             } catch (e) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("Current password is incorrect."),
+                  content: Text(
+                    "Current password is incorrect.",
+                  ),
                   duration: Duration(seconds: 2),
                 ),
               );
@@ -234,24 +237,33 @@ class _HomePageState extends State<HomePage> {
               if (activeNotifications.isNotEmpty)
                 Positioned(
                   right: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    constraints: BoxConstraints(
-                      minWidth: 12,
-                      minHeight: 12,
-                    ),
-                    child: Text(
-                      '${activeNotifications.length}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Duration(milliseconds: 300),
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value,
+                        child: Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: BoxConstraints(
+                            minWidth: 12,
+                            minHeight: 12,
+                          ),
+                          child: Text(
+                            '${activeNotifications.length}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
             ],
@@ -624,9 +636,6 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: screenWidth * 0.95,
               height: screenWidth * 0.31,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFDF5E6),
-              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1149,33 +1158,45 @@ class _HomePageState extends State<HomePage> {
                       itemCount: activeNotifications.length,
                       itemBuilder: (context, index) {
                         final notification = activeNotifications[index];
-                        return Card(
-                          margin: EdgeInsets.symmetric(vertical: 8.0),
-                          child: ListTile(
-                            leading:
-                                Icon(Icons.notifications, color: Colors.amber),
-                            title: Text(notification['notificationHead']),
-                            subtitle: Text(notification['notificationContent']),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextButton(
-                                  child: Text(
-                                    'Dismiss',
-                                    style: TextStyle(color: Colors.red),
+                        return TweenAnimationBuilder<double>(
+                          tween: Tween<double>(begin: 0, end: 1),
+                          duration: Duration(milliseconds: 500),
+                          builder: (context, value, child) {
+                            return Opacity(
+                              opacity: value,
+                              child: Card(
+                                margin: EdgeInsets.symmetric(vertical: 8.0),
+                                child: ListTile(
+                                  leading: Icon(Icons.notifications,
+                                      color: Colors.amber),
+                                  title: Text(notification['notificationHead']),
+                                  subtitle:
+                                      Text(notification['notificationContent']),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                        child: Text(
+                                          'Dismiss',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(user.uid)
+                                              .collection('userNotifications')
+                                              .doc(notification['id'])
+                                              .update({
+                                            'notificationStatus': false
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(user.uid)
-                                        .collection('userNotifications')
-                                        .doc(notification['id'])
-                                        .update({'notificationStatus': false});
-                                  },
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         );
                       },
                     );
@@ -1241,7 +1262,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             } else {
-              return CircularProgressIndicator();
+              return Lottie.asset('images/Progress.json');
             }
           }),
       bottomNavigationBar: CurvedNavigationBar(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlettemobile/components/log_holder.dart';
+import 'package:lottie/lottie.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -25,8 +26,8 @@ class _RegisterPageState extends State<RegisterPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
+        return Center(
+          child: Lottie.asset('images/Progress.json'),
         );
       },
     );
