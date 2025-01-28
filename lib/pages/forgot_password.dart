@@ -121,9 +121,9 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
                               passwordReset();
                             },
                             child: Container(
-                              padding: const EdgeInsets.all(25),
+                              padding: const EdgeInsets.all(15),
                               margin:
-                                  const EdgeInsets.symmetric(horizontal: 25),
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFD8B144),
                                 borderRadius: BorderRadius.circular(8),
@@ -139,7 +139,7 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ),

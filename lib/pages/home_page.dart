@@ -434,7 +434,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildEditableProfileField(String label,
-      TextEditingController controller, IconData icon, bool _isEditing,
+      TextEditingController controller, IconData icon, bool isEditing,
       {bool isPassword = false, bool isPasswordVisible = false}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,7 +460,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 5),
               TextField(
                 controller: controller,
-                enabled: _isEditing, // Enable editing when in edit mode
+                enabled: isEditing, // Enable editing when in edit mode
                 obscureText: isPassword &&
                     !isPasswordVisible, // Show password if the checkbox is toggled
                 decoration: InputDecoration(
@@ -633,7 +633,7 @@ class _HomePageState extends State<HomePage> {
               '10:21',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Container(
+            SizedBox(
               width: screenWidth * 0.95,
               height: screenWidth * 0.31,
               child: Row(
