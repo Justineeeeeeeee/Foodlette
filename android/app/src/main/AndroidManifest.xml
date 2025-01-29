@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- android:name="${applicationName}" -->
     <application
-        android:label="foodlettemobile"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:label="example"
+android:usesCleartextTraffic="true">
+        
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:exported="true"

@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:foodlettemobile/api/firebase_notifications.dart';
 import 'package:foodlettemobile/models/user_model.dart';
 import 'package:lottie/lottie.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,9 +36,6 @@ String _getMonthName(int month) {
   ];
   return monthNames[month - 1];
 }
-
-@override
-bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 
 class _HomePageState extends State<HomePage> {
   final Future<FirebaseApp> _fApp = Firebase.initializeApp();
@@ -363,12 +361,10 @@ class _HomePageState extends State<HomePage> {
                     lastDate: DateTime.now(),
                   );
 
-                  if (pickedDate != null) {
-                    setState(() {
-                      _birthdayController.text =
-                          "${pickedDate.day} ${_getMonthName(pickedDate.month)} ${pickedDate.year}";
-                    });
-                  }
+                  setState(() {
+                    _birthdayController.text =
+                        "${pickedDate?.day} ${_getMonthName(pickedDate!.month)} ${pickedDate.year}";
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFD8B144),
@@ -815,11 +811,17 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              'lib/images/Prototype.png',
-              width: 300,
+            const SizedBox(
+              height: 200,
+              child: ModelViewer(
+                src: 'lib/images/3D/fudlek.glb"',
+                alt: '3D object of Foodlette',
+                disableZoom: true,
+                ar: true,
+                arModes: ['scene-viewer', 'webxr', 'quick-look'],
+                autoRotate: true,
+              ),
             ),
-            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Row(

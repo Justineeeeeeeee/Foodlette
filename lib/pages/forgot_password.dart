@@ -51,16 +51,17 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
         children: [
           // Background animation
           Positioned(
+            bottom: 98,
+            top: 0,
             child: Lottie.asset(
               'lib/images/Background.json',
               fit: BoxFit.cover,
               width: 100,
               height: 100,
             ),
-            bottom: 98,
-            top: 0,
           ),
           Positioned(
+            bottom: 1,
             child: Transform.rotate(
               angle: 3.14159, // 180 degrees in radians
               child: Lottie.asset(
@@ -70,7 +71,6 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
                 height: 100,
               ),
             ),
-            bottom: 1,
           ),
 
           SafeArea(
