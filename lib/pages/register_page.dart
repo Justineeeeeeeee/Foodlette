@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Text(
                             'Please fill out the details below!',
                             style: TextStyle(
-                              color: Colors.grey[700],
+                              color: Colors.black,
                               fontSize: 16,
                             ),
                           ),
@@ -239,7 +239,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: [
                               Text(
                                 'Already have an Account?',
-                                style: TextStyle(color: Colors.grey[700]),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
                               const SizedBox(width: 4),
                               GestureDetector(

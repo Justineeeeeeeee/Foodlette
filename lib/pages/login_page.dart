@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           'Welcome back!',
                           style: TextStyle(
-                            color: Colors.grey[700],
+                            color: Colors.black,
                             fontSize: 16,
                           ),
                         ),
@@ -172,7 +172,9 @@ class _LoginPageState extends State<LoginPage> {
                                     horizontal: 25.0),
                                 child: Text(
                                   'Forgot Password',
-                                  style: TextStyle(color: Colors.grey[600]),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ],
@@ -190,7 +192,9 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Text(
                               'Not a member?',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
                             const SizedBox(width: 4),
                             GestureDetector(
