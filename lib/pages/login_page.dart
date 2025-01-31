@@ -76,143 +76,130 @@ class _LoginPageState extends State<LoginPage> {
               height: 100,
             ),
           ),
-          Positioned(
-            bottom: 1,
-            child: Transform.rotate(
-              angle: 3.14159, // 180 degrees in radians
-              child: Lottie.asset(
-                'lib/images/Background.json',
-                fit: BoxFit.cover,
-                width: 500,
-                height: 100,
-              ),
-            ),
-          ),
 
           SafeArea(
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  const LogoHolder(imagePath: 'lib/images/foodLetteLogo.png'),
-                  // Logo
-                  const SizedBox(height: 15),
-                  // Container with a border
-                  Container(
-                    margin: const EdgeInsets.all(15.0),
-
-                    padding:
-                        const EdgeInsets.all(12.0), // Optional: Add padding
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xFF975102),
-                        width: 2.0,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const LogoHolder(imagePath: 'lib/images/foodLetteLogo.png'),
+                    Container(
+                      margin: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.transparent,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      children: [
-                        // Welcome Back user!
-                        Text(
-                          'Welcome back!',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-
-                        // Email Textfield with Show Email button
-                        TextField(
-                          controller: usernameController,
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // Password Textfield with Show Password button
-                        TextField(
-                          controller: passwordController,
-                          obscureText: !isPasswordVisible,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: togglePasswordVisibility,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Welcome back!',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
                             ),
-                            border: const OutlineInputBorder(),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-
-                        // Forgot Password
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ForgotPassword();
-                                },
+                          const SizedBox(height: 15),
+                          TextField(
+                            controller: usernameController,
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            controller: passwordController,
+                            obscureText: !isPasswordVisible,
+                            decoration: InputDecoration(
+                              hintText: 'Password',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: togglePasswordVisibility,
                               ),
-                            );
-                          },
-                          child: Row(
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return ForgotPassword();
+                                  },
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    const begin = Offset(1.0, 0.0);
+                                    const end = Offset.zero;
+                                    const curve = Curves.ease;
+
+                                    var tween = Tween(begin: begin, end: end)
+                                        .chain(CurveTween(curve: curve));
+
+                                    return SlideTransition(
+                                      position: animation.drive(tween),
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: Text(
+                                    'Forgot Password',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          MyButton(onTap: signUserIn),
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: Text(
-                                  'Forgot Password',
+                              Text(
+                                'Not a member?',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              GestureDetector(
+                                onTap: widget.onTap,
+                                child: const Text(
+                                  'Register now',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 15),
-
-                        // Login Button
-                        MyButton(onTap: signUserIn),
-                        const SizedBox(height: 15),
-
-                        // Not a member? Register now
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Not a member?',
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            GestureDetector(
-                              onTap: widget.onTap,
-                              child: const Text(
-                                'Register now',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

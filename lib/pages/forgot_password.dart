@@ -60,19 +60,6 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
               height: 100,
             ),
           ),
-          Positioned(
-            bottom: 1,
-            child: Transform.rotate(
-              angle: 3.14159, // 180 degrees in radians
-              child: Lottie.asset(
-                'lib/images/Background.json',
-                fit: BoxFit.cover,
-                width: 500,
-                height: 100,
-              ),
-            ),
-          ),
-
           SafeArea(
             child: Center(
               child: Column(
@@ -86,8 +73,8 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
                       margin: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: const Color(
-                              0xFF975102), // Customize the border color
+                          color:
+                              Colors.transparent, // Customize the border color
                           width: 2.0, // Customize the border thickness
                         ),
                         borderRadius: BorderRadius.circular(

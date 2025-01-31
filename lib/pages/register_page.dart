@@ -34,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
         email: usernameController.text,
         password: passwordController.text,
       );
+
       // Add user data to Firestore
       await FirebaseFirestore.instance
           .collection('users')
@@ -43,7 +44,6 @@ class _RegisterPageState extends State<RegisterPage> {
         'timestamp': FieldValue.serverTimestamp(),
       });
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
       if (e.code == 'email-already-in-use') {
         showErrorMessage("An account already exists for that email.");
       } else {
@@ -84,18 +84,6 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 100,
             ),
           ),
-          Positioned(
-            bottom: 1,
-            child: Transform.rotate(
-              angle: 3.14159, // 180 degrees in radians
-              child: Lottie.asset(
-                'lib/images/Background.json',
-                fit: BoxFit.cover,
-                width: 500,
-                height: 100,
-              ),
-            ),
-          ),
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -110,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       margin: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: const Color(0xFF975102),
+                          color: Colors.transparent,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
