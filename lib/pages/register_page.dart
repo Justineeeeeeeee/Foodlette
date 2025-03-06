@@ -22,6 +22,9 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
+  // Terms and conditions checkbox state
+  bool _isTermsAccepted = false;
+
   Future<void> register() async {
     if (passwordController.text != confirmPasswordController.text) {
       Navigator.pop(context);
@@ -68,6 +71,76 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  void showTermsAndConditions() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Terms and Conditions'),
+          content: const SingleChildScrollView(
+            child: Text(
+              '''Effective Date: February 12, 2025
+
+  Welcome to Foodlette! By accessing or using our platform, you agree to comply with these Terms and Conditions. Please read them carefully.
+
+  1. Acceptance of Terms
+
+  By using Foodlette, you agree to abide by these Terms and Conditions. If you do not agree, please do not use our platform.
+
+  2. Description of Service
+
+  Foodlette provides a platform for users to explore and share food-related content, including recipes, meal ideas, and restaurant recommendations.
+
+  3. User Responsibilities
+
+  You must provide accurate and honest information when using our platform.
+
+  You are responsible for ensuring your interactions on the platform comply with all applicable laws.
+
+  You may not use Foodlette for any unlawful activities.
+
+  4. Limitation of Liability
+
+  Foodlette is not responsible for any inaccuracies in user-submitted content.
+
+  We do not guarantee the accuracy, safety, or quality of any recipes or food recommendations shared on the platform.
+
+  Foodlette shall not be liable for any direct or indirect damages resulting from your use of the platform.
+
+  5. Privacy Policy
+
+  Your privacy is important to us. Please refer to our Privacy Policy for details on how we collect, use, and protect your information.
+
+  6. Modifications to Terms
+
+  We may update these Terms from time to time. Continued use of Foodlette after updates signifies your acceptance of the changes.
+
+  7. Termination
+
+  We reserve the right to suspend or terminate your access to Foodlette if you violate these Terms.
+
+  8. Contact Information
+
+  If you have any questions about these Terms, please contact us at Foodlette@gmail.com.
+
+  By using Foodlette, you acknowledge that you have read and agreed to these Terms and Conditions.
+
+  ''',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +171,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       margin: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.transparent,
+                          color: const Color(0xFF975102),
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
@@ -177,18 +250,50 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 5),
+
+                          // Terms and Conditions Checkbox
+                          Row(
+                            children: [
+                              Checkbox(
+                                activeColor: Colors.white,
+                                checkColor: Colors.black,
+                                side: const BorderSide(
+                                  color: Colors.black,
+                                ),
+                                value: _isTermsAccepted,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _isTermsAccepted = value!;
+                                  });
+                                },
+                              ),
+                              GestureDetector(
+                                onTap: showTermsAndConditions,
+                                child: const Text(
+                                  'I accept the Terms and Conditions',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
 
                           // Sign-up Button
                           GestureDetector(
-                            onTap: register,
+                            onTap: _isTermsAccepted ? register : null,
                             child: Container(
                               height: 45,
                               padding: const EdgeInsets.all(10),
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 25),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFD8B144),
+                                color: _isTermsAccepted
+                                    ? const Color(0xFFD8B144)
+                                    : Colors.grey,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
                                   color: const Color(0xFF975102),
@@ -208,18 +313,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           const SizedBox(height: 12),
-
-                          // Google + Facebook Buttons
-                          /* const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SquareTile(imagePath: 'lib/images/google.png'),
-                              SizedBox(width: 25),
-                              SquareTile(imagePath: 'lib/images/facebook.png'),
-                            ],
-                          ),
-                          const SizedBox(height: 50),
-                          */
 
                           // Already have an account?
                           Row(

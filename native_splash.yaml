@@ -6,4 +6,3 @@ flutter_native_splash:
   color: "#FFFECB"
   image: "lib/images/SplashScreen.png"
   branding: "lib/images/TeamName.png"
-  ma  

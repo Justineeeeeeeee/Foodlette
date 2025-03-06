@@ -21,39 +21,34 @@ class DatabaseService {
     }
   }
 
-  update(name, setEmail, setbirthdate, password, BuildContext context) async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await user.updatePassword(password);
-        await database.collection('users').doc(user.uid).update({
-          'name': name,
-          'email': setEmail,
-          'birthday': setbirthdate,
-        });
+  Future<void> update(String name, String email, String birthday,
+      String? newPassword, BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser!;
+    final userDoc =
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
 
-        // Show dialog if update is successful
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Update Successful'),
-              content: Text('User information has been updated successfully.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } catch (e) {
-      print(e.toString());
+    await userDoc.update({
+      'name': name,
+      'email': email,
+      'birthday': birthday,
+    });
+    if (newPassword != null && newPassword.isNotEmpty) {
+      await user.updatePassword(newPassword);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error updating Password."),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Profile updated successfully."),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   read() {

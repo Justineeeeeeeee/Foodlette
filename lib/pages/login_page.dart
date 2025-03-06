@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.transparent,
+                          color: const Color(0xFF975102),
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),

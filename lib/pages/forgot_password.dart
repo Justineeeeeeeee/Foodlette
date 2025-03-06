@@ -73,8 +73,8 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
                       margin: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color:
-                              Colors.transparent, // Customize the border color
+                          color: const Color(
+                              0xFF975102), // Customize the border color
                           width: 2.0, // Customize the border thickness
                         ),
                         borderRadius: BorderRadius.circular(
