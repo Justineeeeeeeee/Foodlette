@@ -184,10 +184,3 @@ Before starting, ensure you have the following installed:
 - Test alerts by triggering sensor thresholds (e.g., over-temp, low ingredient weight).
 
 ---
-
-### ✅ Deployment Tips
-
-- Enable Firebase security rules to restrict unauthorized access.
-- Consider integrating local storage (e.g., SQLite) for offline use.
-- Create user guides for farmers or end-users to simplify onboarding.
-
