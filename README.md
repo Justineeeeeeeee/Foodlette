@@ -121,3 +121,73 @@ Detailed documentation including conceptual framework, system architecture, and 
 
 - **Presented in**: ITechtivity 2025 – UCC CSD Undergraduate I.T. Research Journal  
 - **Edition**: May 2025
+
+---
+
+## ⚙️ Full Setup Instructions
+
+### 🔧 Prerequisites
+
+Before starting, ensure you have the following installed:
+
+- [Android Studio](https://developer.android.com/studio)
+- Firebase account and project configured
+- NodeMCU/ESP32 for hardware integration
+- Arduino IDE with required libraries for sensor control (DHT, MQ, HX711, etc.)
+- A stable internet connection (required for Firebase real-time updates)
+
+---
+
+### 🧰 Hardware Setup
+
+1. **Connect Sensors to ESP32/NodeMCU:**
+   - **DHT11/DHT22** for temperature & humidity
+   - **MQ-135** for gas/spoilage detection
+   - **HX711 + Load Cell** for weight measurement
+   - **Ultrasonic sensor** (optional) for level sensing
+
+2. **Connect to Firebase:**
+   - Program the ESP32/NodeMCU using Arduino IDE to send data to Firebase Realtime Database.
+   - Add Wi-Fi credentials and Firebase credentials in the sketch.
+
+3. **Power Source:**
+   - Use a regulated power supply (5V or 3.3V depending on your board).
+
+---
+
+### 🖥️ Mobile App Setup (Android Studio)
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/Foodlette.git
+   ```
+
+2. **Open the project in Android Studio**
+
+3. **Connect Firebase:**
+   - Download `google-services.json` from Firebase Console and place it inside the `app/` folder.
+   - Ensure Firebase is enabled for:
+     - Authentication (email/password)
+     - Realtime Database
+     - Cloud Messaging (for push notifications)
+
+4. **Run the app:**
+   - Build and run the app using an emulator or physical Android device.
+
+---
+
+### 🧪 Testing & Validation
+
+- Make sure the microcontroller is powered and connected to Wi-Fi.
+- Verify real-time sensor data updates on the Firebase console.
+- Monitor app dashboard for accurate data reflection.
+- Test alerts by triggering sensor thresholds (e.g., over-temp, low ingredient weight).
+
+---
+
+### ✅ Deployment Tips
+
+- Enable Firebase security rules to restrict unauthorized access.
+- Consider integrating local storage (e.g., SQLite) for offline use.
+- Create user guides for farmers or end-users to simplify onboarding.
+
