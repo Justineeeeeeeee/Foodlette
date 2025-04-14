@@ -1,78 +1,123 @@
-📱 FoodLette Mobile Application
 
-FoodLette is a smart IoT-powered mobile application built using Flutter, designed to help farmers and small poultry owners efficiently produce chicken feeds using green waste vegetables. The app provides real-time monitoring, remote machine control, and system notifications to support sustainable farming practices.
+# 🐔 Foodlette – IoT System for Turning Vegetable Waste into Poultry Feed
 
-🌟 Key Features
+**Foodlette** is an IoT-enabled mobile platform that transforms surplus green vegetables into sustainable poultry feed. Designed to optimize cost, minimize food waste, and promote agricultural sustainability, it uses real-time sensor monitoring and a Model Predictive Control (MPC) algorithm to automate the feed production process.
 
-🔐 Login & Authentication System
+---
 
-📡 Real-Time Sensor Monitoring (temperature, humidity, etc.)
+## 🌿 Project Overview
 
-📲 Mobile Notifications for system updates and alerts
+Foodlette addresses the issue of green vegetable waste and expensive poultry feed by:
 
-🎛️ Remote control of the feed production machine
+- Converting food waste into nutritious chicken feed pellets.
+- Empowering farmers through a mobile app to monitor and control feed production remotely.
+- Reducing methane emissions from decomposing food waste.
+- Supporting the Philippine Development Plan 2023–2028 through sustainable agriculture.
 
-📦 Inventory and feed management
+---
 
-📋 Project Description
+## 🚀 Features
 
-The FoodLette mobile application is part of an integrated IoT system that automates the conversion of vegetable waste into nutritionally balanced chicken feed pellets. It communicates with smart sensors embedded in the machine to track environmental data and uses this data to guide machine operations through the app.
+- 📱 **Mobile App** (Android & iOS): Remote control of pelletizing machine with start/stop, error alerts, and status monitoring.
+- 📊 **Real-Time Monitoring**: Track temperature, humidity, gas levels, ingredient weights, and machine performance.
+- ☁️ **Cloud Storage**: Firebase integration for saving logs, history, and user data.
+- 🔐 **Secure Login**: User authentication and role-based access.
+- 🔔 **Push Notifications**: Error warnings, maintenance schedules, and system downtime alerts.
+- 🌍 **Language Support**: English interface.
 
-Built with Flutter, the application offers a responsive and intuitive interface that supports Android devices. It connects seamlessly with Firebase for real-time database management and user authentication.
+---
 
-🛠️ Installation Guide
+## 🛠️ Tech Stack
 
-Prerequisites:
+- **Frontend**: Android Studio, Figma (UI Design)
+- **Backend**: Firebase (Database, Auth, Cloud Functions)
+- **IoT & Sensors**: Gas sensors, weight sensors, temperature/humidity sensors
+- **3D Assets**: Blender (Machine visualizations)
+- **Version Control**: Git & GitHub
+- **Assisted Development**: GitHub Copilot
 
-Flutter SDK installed on your system
+---
 
-Android Studio or Visual Studio Code with Flutter and Dart extensions
+## 📦 Installation & Setup
 
-A physical or virtual Android device for testing
+### 🔧 Prerequisites
 
-Setup Instructions:
+- Android Studio
+- Firebase Project Setup
+- Physical IoT sensors and pelletizing machine (connected to Firebase)
+- NodeMCU/ESP32 microcontroller (for hardware interface)
 
-# Step 1: Clone the repository
-https://github.com/yourusername/foodlette-mobile.git
+### 📱 Running the App
 
-# Step 2: Navigate to the project directory
-cd foodlette-mobile
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/Foodlette.git
+   ```
+2. Open with Android Studio.
+3. Configure Firebase keys in `google-services.json`.
+4. Connect physical hardware to Firebase endpoints.
+5. Run the app on an emulator or device.
 
-# Step 3: Get all dependencies
-flutter pub get
+---
 
-# Step 4: Launch Android emulator or connect your device
+## 🧪 Experimental Validation
 
-# Step 5: Run the application
-flutter run
+- Compared traditional feed vs. Foodlette feed on poultry growth.
+- Experimental group showed better feed efficiency and higher weight gain.
+- No health issues observed; confirmed safety and viability of Foodlette feed.
+- Economic analysis suggests cost-effectiveness due to improved conversion rates.
 
-Optional: Running via Visual Studio Code
+---
 
-Open the folder in VS Code
+## 📊 Research Summary
 
-Ensure your device/emulator is running
+| Metric             | Control Group | Experimental Group |
+|--------------------|---------------|--------------------|
+| Week 2 Weight Gain | 365g avg.     | 393g avg.          |
+| Feed Intake        | 500g/chick    | 500g/chick         |
+| Health Status      | Normal        | Normal             |
+| Efficiency         | Moderate      | High               |
 
-Press F5 or click Run > Start Debugging
+---
 
-📂 Folder Structure
+## 📚 Significance
 
-lib/ – Contains all the Dart source code
+- Promotes a **circular economy** by linking vegetable surplus suppliers and poultry farmers.
+- Improves **food security** and **livelihoods** of small poultry farmers.
+- Reduces reliance on **imported feed ingredients** (soy, maize).
 
-assets/ – Images, icons, and static assets
+---
 
-android/ – Android native code
+## 📐 System Diagrams
 
-ios/ – iOS native code (if building for iOS in the future)
+- **IPO Diagram**
+- **ERD**
+- **Use Case Diagram**
+- **Login, Dashboard, and Machine Images** *(See documentation or presentation slides)*
 
-pubspec.yaml – App dependencies and configuration
+---
 
-⚠️ Disclaimer
+## 📄 Documentation
 
-FoodLette is currently under active development. While it aims to improve sustainability in poultry farming by repurposing vegetable waste into chicken feed, results may vary based on usage. Always consult agricultural professionals for precise feeding guidelines.
+Detailed documentation including conceptual framework, system architecture, and experimental results is provided in the [project paper](./Copy%20of%20Format.docx).
 
-📧 Contact
+---
 
-Have feedback or suggestions? Reach out to us at: consultajustine850@gmail.com
+## 👥 Authors
 
-Happy Farming! 🐔🌱
+- Rosemarie A. Bullo  
+- Justine M. Consulta  
+- Allan Isaac Manguerra  
+- Daryll T. Miguel  
+- Hazel Ann A. Noquera  
+- Angelo Uriel Pelagio  
+- Karl Denmark B. Razon  
+- **Adviser**: Prof. Joemen G. Barrios, MIT  
+- 🏫 University of Caloocan City – North Campus
 
+---
+
+## 📅 Release Info
+
+- **Presented in**: ITechtivity 2025 – UCC CSD Undergraduate I.T. Research Journal  
+- **Edition**: May 2025
