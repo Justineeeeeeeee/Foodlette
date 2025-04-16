@@ -110,6 +110,15 @@ class _LoginPageState extends State<LoginPage> {
                               hintText: 'Email',
                               border: const OutlineInputBorder(),
                             ),
+                            onChanged: (value) {
+                              usernameController.text =
+                                  value.replaceAll(RegExp(r'[^\w@.]'), '');
+                              usernameController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: usernameController.text.length),
+                              );
+                            },
                           ),
                           const SizedBox(height: 10),
                           TextField(

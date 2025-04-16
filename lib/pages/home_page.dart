@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,10 +7,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'package:foodlettemobile/api/firebase_notifications.dart';
 import 'package:foodlettemobile/models/user_model.dart';
+import 'package:foodlettemobile/pages/machineConnetion.dart' hide Text;
 import 'package:foodlettemobile/pages/temperature_graph.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:flutter/material.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -52,6 +54,7 @@ class _HomePageState extends State<HomePage> {
   String realTimeMoisture = '0';
   String realTimeVegetables = '0';
   String realTimeWeight = '0';
+  final ImagePicker _picker = ImagePicker();
   final user = FirebaseAuth.instance.currentUser!;
   int _page = 0;
   File? _image; // Holds the user's image
@@ -133,35 +136,19 @@ class _HomePageState extends State<HomePage> {
 
   // Function to pick an image from the gallery
 
-  Future<void> _pickImage() async {
-    // Request storage permission
-    final permissionStatus = await Permission.storage.request();
-    if (permissionStatus.isGranted) {
-      // Pick an image from the gallery
-      final pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _image = File(pickedFile.path);
-        });
-        await _saveImageLocally(_image!);
-      }
-    } else if (permissionStatus.isDenied) {
-      // Show a snackbar if permission is denied
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Permission denied. Please grant access to photos."),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } else if (permissionStatus.isPermanentlyDenied) {
-      // Open app settings if permission is permanently denied
-      openAppSettings();
-    }
-  }
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
 
-  Future<void> _saveImageLocally(File image) async {
-    // Your implementation to save the image locally
+      // Save the image local path to the database
+      final imagePath = pickedFile.path;
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+      await userDoc.update({'profileImage': imagePath});
+    }
   }
 
   Stream<List<Map<String, dynamic>>> streamNotifications() {
@@ -201,6 +188,90 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void openDrawer() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.home,
+                    color: _page == 0 ? const Color(0xFFD8B144) : Colors.black),
+                title: Text('Home',
+                    style: TextStyle(
+                        color: _page == 0
+                            ? const Color(0xFFD8B144)
+                            : Colors.black)),
+                tileColor: _page == 0 ? const Color(0xFFF5F5DC) : Colors.white,
+                onTap: () {
+                  setState(() {
+                    _page = 0;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.agriculture,
+                    color: _page == 1 ? const Color(0xFFD8B144) : Colors.black),
+                title: Text('Generate Feeds',
+                    style: TextStyle(
+                        color: _page == 1
+                            ? const Color(0xFFD8B144)
+                            : Colors.black)),
+                tileColor: _page == 1 ? const Color(0xFFF5F5DC) : Colors.white,
+                onTap: () {
+                  setState(() {
+                    _page = 1;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person,
+                    color: _page == 2 ? const Color(0xFFD8B144) : Colors.black),
+                title: Text('Profile',
+                    style: TextStyle(
+                        color: _page == 2
+                            ? const Color(0xFFD8B144)
+                            : Colors.black)),
+                tileColor: _page == 2 ? const Color(0xFFF5F5DC) : Colors.white,
+                onTap: () {
+                  setState(() {
+                    _page = 2;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.notifications,
+                    color: _page == 3 ? const Color(0xFFD8B144) : Colors.black),
+                title: Text('Notifications',
+                    style: TextStyle(
+                        color: _page == 3
+                            ? const Color(0xFFD8B144)
+                            : Colors.black)),
+                tileColor: _page == 3 ? const Color(0xFFF5F5DC) : Colors.white,
+                onTap: () {
+                  setState(() {
+                    _page = 3;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout, color: Colors.black),
+                title: Text('Sign Out', style: TextStyle(color: Colors.black)),
+                onTap: _signOut,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   // Toggle Edit Mode
 
   void _toggleEdit() {
@@ -390,6 +461,7 @@ class _HomePageState extends State<HomePage> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          // Main Column
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Profile Image Section
@@ -401,8 +473,37 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: const Color(0xFFD8B144),
                   backgroundImage: _image != null ? FileImage(_image!) : null,
                   child: _image == null
-                      ? Icon(Icons.person,
-                          size: 50, color: const Color.fromARGB(255, 0, 0, 0))
+                      ? FutureBuilder<DocumentSnapshot>(
+                          future: FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(user.uid)
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return const Icon(Icons.error, color: Colors.red);
+                            } else if (snapshot.hasData) {
+                              final profileImage =
+                                  snapshot.data?.get('profileImage') ?? '';
+                              if (profileImage.isNotEmpty) {
+                                final file = File(profileImage);
+                                if (file.existsSync()) {
+                                  return CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: FileImage(file),
+                                  );
+                                } else {
+                                  return const Icon(Icons.error,
+                                      color: Colors.red, size: 50);
+                                }
+                              }
+                            }
+                            return const Icon(Icons.person,
+                                size: 50, color: Color.fromARGB(255, 0, 0, 0));
+                          },
+                        )
                       : null,
                 ),
                 if (_isEditing) // Show only when editing
@@ -413,7 +514,9 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.zero,
                       icon:
                           Icon(Icons.camera_alt, size: 16, color: Colors.black),
-                      onPressed: _pickImage, // Pick a new image
+                      onPressed: () async {
+                        await _pickImage(ImageSource.gallery);
+                      },
                     ),
                   ),
               ],
@@ -611,7 +714,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 const SizedBox(width: 8),
-                Container(
+                SizedBox(
                   width:
                       175, // Adjust the width to accommodate the text and unit
                   child: Stack(
@@ -871,24 +974,34 @@ class _HomePageState extends State<HomePage> {
                     onTap: (_startButtonText == "START" ||
                             _startButtonText == null)
                         ? () {
-                            setState(() {
-                              // Change the start button text to "STARTING"
-                              _startButtonText = "STARTING";
-                              _startButtonColor = Colors.white;
-                              // Update the machine status to true
-                              FirebaseDatabase.instance
-                                  .ref()
-                                  .child('relayState')
-                                  .set(true);
-                            });
-                            Future.delayed(Duration(seconds: 1), () {
+                            if (_actualVegetableController.text.isNotEmpty) {
                               setState(() {
-                                // Change the background color to white and text to "OPERATING" after delay
+                                // Change the start button text to "STARTING"
+                                _startButtonText = "STARTING";
                                 _startButtonColor = Colors.white;
-                                _startButtonText = "OPERATING";
-                                _elapsedSeconds = 0; // Reset elapsed seconds
+                                // Update the machine status to true
+                                FirebaseDatabase.instance
+                                    .ref()
+                                    .child('relayState')
+                                    .set(true);
                               });
-                            });
+                              Future.delayed(Duration(seconds: 1), () {
+                                setState(() {
+                                  // Change the background color to white and text to "OPERATING" after delay
+                                  _startButtonColor = Colors.white;
+                                  _startButtonText = "OPERATING";
+                                  _elapsedSeconds = 0; // Reset elapsed seconds
+                                });
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      "No Operation Performed. Please fill in the fields."),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            }
                           }
                         : () {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -1058,7 +1171,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 // 3D Model Viewer
-            Container(
+            SizedBox(
               height: 300,
               child: const ModelViewer(
                 src: "lib/images/fudlek.glb",
@@ -1497,6 +1610,10 @@ class _HomePageState extends State<HomePage> {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              IconButton(
+                                icon: Icon(Icons.menu),
+                                onPressed: openDrawer,
+                              ),
                               Flexible(
                                 child: Image.asset(
                                   'lib/images/bradingLogo.png',
@@ -1504,167 +1621,16 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.connect_without_contact),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      TextEditingController
-                                          _textfieldMachineID =
-                                          TextEditingController();
-                                      return AlertDialog(
-                                        title: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('machine I.D'),
-                                            IconButton(
-                                              icon: Icon(Icons.close),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        content: TextField(
-                                          controller: _textfieldMachineID,
-                                          decoration: InputDecoration(
-                                              hintText: "00012"),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () async {
-                                              String machineID =
-                                                  _textfieldMachineID.text
-                                                      .trim();
-                                              if (machineID.isEmpty) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "Machine ID cannot be empty."),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                                return;
-                                              }
-                                              DocumentReference machineRef =
-                                                  FirebaseFirestore.instance
-                                                      .collection('Machines')
-                                                      .doc(machineID);
-                                              DocumentSnapshot snapshot =
-                                                  await machineRef.get();
-                                              if (snapshot.exists) {
-                                                await machineRef
-                                                    .collection('Machines')
-                                                    .doc('MachineStatus')
-                                                    .set({
-                                                  'MachineStatus': false
-                                                });
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "Machine Disconnected."),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "Machine ID does not exist."),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: Text('Disconnect'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              String machineID =
-                                                  _textfieldMachineID.text
-                                                      .trim();
-                                              if (machineID.isEmpty) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "Machine ID cannot be empty."),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                                return;
-                                              }
-                                              DocumentReference machineRef =
-                                                  FirebaseFirestore.instance
-                                                      .collection('Machines')
-                                                      .doc(machineID);
-                                              DocumentSnapshot snapshot =
-                                                  await machineRef.get();
-                                              if (snapshot.exists) {
-                                                DocumentReference
-                                                    machineStatusRef =
-                                                    machineRef
-                                                        .collection('Status')
-                                                        .doc('MachineStatus');
-                                                DocumentSnapshot
-                                                    statusSnapshot =
-                                                    await machineStatusRef
-                                                        .get();
-                                                if (statusSnapshot.exists &&
-                                                    statusSnapshot[
-                                                            'MachineStatus'] ==
-                                                        true) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                          "Machine is in use."),
-                                                      duration:
-                                                          Duration(seconds: 2),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  await machineStatusRef.set(
-                                                      {'MachineStatus': true});
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content:
-                                                          Text("Connected."),
-                                                      duration:
-                                                          Duration(seconds: 2),
-                                                    ),
-                                                  );
-                                                }
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "Machine ID does not exist."),
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text('Connect'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
+                                  icon: Icon(Icons.connect_without_contact),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            MachineConnectionPage(),
+                                      ),
+                                    );
+                                  }),
                             ],
                           ),
                         ),

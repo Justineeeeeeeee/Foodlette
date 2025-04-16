@@ -198,6 +198,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
+                            onChanged: (value) {
+                              // Remove special characters
+                              usernameController.text =
+                                  value.replaceAll(RegExp(r'[^\w@.]'), '');
+                              usernameController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: usernameController.text.length),
+                              );
+                            },
                           ),
                           const SizedBox(height: 10),
 

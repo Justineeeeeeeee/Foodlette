@@ -100,6 +100,16 @@ class _ForgotPasswordPageState extends State<ForgotPassword> {
                             controller: emailController,
                             hintText: 'Email',
                             obscureText: false,
+                            onChanged: (value) {
+                              emailController.text =
+                                  value.replaceAll(RegExp(r'[^\w@.]'), '');
+                              emailController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: emailController.text.length),
+                              );
+                            },
+                            Function: (value) {},
                           ),
 
                           const SizedBox(height: 20),

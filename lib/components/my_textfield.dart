@@ -10,6 +10,8 @@ class MyTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    required Null Function(dynamic value) Function,
+    required Null Function(dynamic value) onChanged,
   });
 
   @override
